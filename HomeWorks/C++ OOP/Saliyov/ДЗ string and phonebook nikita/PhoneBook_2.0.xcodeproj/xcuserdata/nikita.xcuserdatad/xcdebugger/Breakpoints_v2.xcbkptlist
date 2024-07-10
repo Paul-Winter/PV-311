@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "2A2B03CD-183D-4B7C-8170-D169A8372076"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E569AFFB-1187-4044-BEAD-DE006CDB7FD0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E569AFFB-1187-4044-BEAD-DE006CDB7FD0 - f1b42550426da6a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "300">
+               </Location>
+               <Location
+                  uuid = "E569AFFB-1187-4044-BEAD-DE006CDB7FD0 - f1b42550426da6a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "328">
+               </Location>
+               <Location
+                  uuid = "E569AFFB-1187-4044-BEAD-DE006CDB7FD0 - f1b42550426da6a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "312">
+               </Location>
+               <Location
+                  uuid = "E569AFFB-1187-4044-BEAD-DE006CDB7FD0 - f1b42550426da6a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "308">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0487582E-65A9-467B-936D-105DDB0659DB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "72CF4655-B87A-41AC-A423-C2D7E30B7ED0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "509B0C4A-3F26-4BFB-81B3-B4C6C4481E3E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8DF5D4C8-EEC3-4B9A-B766-6466DB40F49E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FAE9E5AF-109A-4C05-AC00-53DC72AB1E09"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2B6AFA5F-5F45-4D23-A08C-B8C574EA9D64"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "856B3368-F37F-41B6-8C31-4606C015E777"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "856B3368-F37F-41B6-8C31-4606C015E777 - f1b42550426da6ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "272">
+               </Location>
+               <Location
+                  uuid = "856B3368-F37F-41B6-8C31-4606C015E777 - f1b42550426da6ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "268">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8F9C97DD-846D-445D-9B2D-B3CC68BF898D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "70FA339E-F749-4B96-860C-695FFE9DF35C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FDD2EE86-7F72-4713-9F7C-AA92AAA20FA2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FDD2EE86-7F72-4713-9F7C-AA92AAA20FA2 - f1b42550426da15f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "163"
+                  endingLineNumber = "163"
+                  offsetFromSymbolStart = "848">
+               </Location>
+               <Location
+                  uuid = "FDD2EE86-7F72-4713-9F7C-AA92AAA20FA2 - f1b42550426da13e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "848">
+               </Location>
+               <Location
+                  uuid = "FDD2EE86-7F72-4713-9F7C-AA92AAA20FA2 - f1b42550426da13e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "828">
+               </Location>
+               <Location
+                  uuid = "FDD2EE86-7F72-4713-9F7C-AA92AAA20FA2 - f1b42550426da13e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "824">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7408EC19-48D8-4B96-B4DA-7914E6F88CED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7408EC19-48D8-4B96-B4DA-7914E6F88CED - f1b42550426da11d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "165"
+                  endingLineNumber = "165"
+                  offsetFromSymbolStart = "880">
+               </Location>
+               <Location
+                  uuid = "7408EC19-48D8-4B96-B4DA-7914E6F88CED - f1b42550426da0fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "880">
+               </Location>
+               <Location
+                  uuid = "7408EC19-48D8-4B96-B4DA-7914E6F88CED - f1b42550426da0fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "860">
+               </Location>
+               <Location
+                  uuid = "7408EC19-48D8-4B96-B4DA-7914E6F88CED - f1b42550426da0fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "856">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "14410D1A-4691-49D9-9FA2-5584D89FFE01"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneBook_2.0/PhoneBook.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "deleteAbonent1(abonentName_delete)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "14410D1A-4691-49D9-9FA2-5584D89FFE01 - f1b42550426da015"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "173"
+                  endingLineNumber = "173"
+                  offsetFromSymbolStart = "1264">
+               </Location>
+               <Location
+                  uuid = "14410D1A-4691-49D9-9FA2-5584D89FFE01 - f1b42550426da3f4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "174"
+                  endingLineNumber = "174"
+                  offsetFromSymbolStart = "1264">
+               </Location>
+               <Location
+                  uuid = "14410D1A-4691-49D9-9FA2-5584D89FFE01 - f1b42550426da3f4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "174"
+                  endingLineNumber = "174"
+                  offsetFromSymbolStart = "1244">
+               </Location>
+               <Location
+                  uuid = "14410D1A-4691-49D9-9FA2-5584D89FFE01 - f1b42550426da3f4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneBook::deleteAbonent1(char const*)"
+                  moduleName = "PhoneBook_2.0"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita/Desktop/%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/PhoneBook_2.0/PhoneBook.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "174"
+                  endingLineNumber = "174"
+                  offsetFromSymbolStart = "1240">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
