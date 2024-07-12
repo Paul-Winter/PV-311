@@ -6,4 +6,4 @@
 Морозова	-	(activity diagram)	диаграмма деятельности;
 Ряжских		-	(sequence diagram)	диаграмма последовательности;
 Салиёв		-	(component diagram)	диаграмма компонентов;
-Сергеев		-	(deployment diagram)	диаграмма развёртывания
+Сергеев		-	(deployment diagram)	диаграмма развёртывания.
