@@ -4,7 +4,7 @@
 ### Contributors:
 
 #### * Zimin
-#### * Lutsuk
+#### * LUTSUK
 #### * Sergeev
 #### * Morozova
 #### * Saliyov
