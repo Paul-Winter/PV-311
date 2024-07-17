@@ -42,5 +42,27 @@ void Wallet::SetWallet(string walletName, string walletCurrency, int walletAmoun
 	}
 }
 
-
-
+void Wallet::PayDay(string name, int payDay)
+{
+	cout << "Switch volute: \n 1. - rubble \n 2. - dollar \n 3. - euro  ";
+	int a = 0;
+	cin >> a;
+	switch(a)
+	{
+		case 1:
+			//здесь костыль
+			//walletAmountOfMoney += payDay * currency["rubble"];
+			payDay = payDay * currency["ruble"] + walletAmountOfMoney;
+			SetAmountOfMoney(payDay);
+			break;
+		case 2:
+			payDay = payDay * currency["dollar"] + walletAmountOfMoney;
+			SetAmountOfMoney(payDay);
+			break;
+		case 3:
+			payDay = payDay * currency["euro"] + walletAmountOfMoney;
+			SetAmountOfMoney(payDay);
+			break;
+	}
+			cout << "Name: " << name << "\t Amount of money: " << walletAmountOfMoney << endl;
+}

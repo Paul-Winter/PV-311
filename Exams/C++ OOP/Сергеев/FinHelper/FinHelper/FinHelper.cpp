@@ -1,45 +1,59 @@
 ﻿#include <iostream>
 #include "Wallet.h"
 #include "Card.h"
-
-//--------------------------------------------------------------------->
-//  Создайте систему управления персональными финансами.
-//  Система должна иметь следующие возможности :
-// 
-//      ■ Наличие разных кошельков и карт(дебетовых / кредитных); 
-// 
-//      ■ Пополнение кошельков и карт;
-//      ■ Внесение затрат.Каждая затрата относится к определенной категории;
-//      ■ Формирование отчетов по затратам и категориям :
-//  • день;
-//  • неделя;
-//  • месяц.
-//  ■ Формирование рейтингов по максимальным суммам :
-//  • ТОП затрат :
-//  неделя;
-//  месяц.
-//  • ТОП категорий :
-//  неделя;
-//  месяц.
-//  ■ Сохранение отчетов и рейтингов в файл.
-//--------------------------------------------------------------------->
+#include "File.h"
 
 using namespace std;
 
 int main()
 {
+    File f;
+    string name;
+    string cardType;
+    int valute;
+    int credit = 0;
     //Create Wallet
     Wallet w;
-    w.SetName("Qivi");
-    w.SetWallet("SberPlay", "ruble", 200);
-    //cout << "WalletName: " << 
+    //`<--  Определение переменных для записи 
+    //--!>
+    w.SetWallet("Qivi", "ruble", 200);
+    w.GetWallet();
+
+    // запись в файл
+    name = w.GetName();
+    valute = w.GetAmountOfMoney();
+    f.WriteFile(name, "rub", valute);
     
     //Print Valute
     Currency cur;
     cur.GetAllCurrency();
     
-    //Create Card
+    //Create Card (debt)
     Card card;
-    card.SetCard("SberBank", "euro", "credit", 150000, 100);
+    card.SetCard("SberBank", "ruble", "debet", 100);
+    card.GetCard();
+    
+    //Запись в файл
+    name = card.GetName();
+    valute = card.GetAmountOfMoney();
+    cardType = card.GetCardType();
+    f.WriteFile(name, "ruble", cardType, valute, credit) ;
+
+    // Create card (credit)
+    card.SetCard("VTB", "ruble", "debet", 100, 15000);
+
+    // Запись в файл
+
+    name = card.GetName();
+    valute = card.GetAmountOfMoney();
+    cardType = card.GetCardType();
+    credit = card.GetCardLimit();
+    f.WriteFile(name, "ruble", cardType, valute, credit) ;
+
+    card.PayDay("SberBank", 400);
+    f.WriteFile(name, "ruble", cardType, valute, credit) ;
+    card.GetCard();
+
+    f.ReadFile();
 
 }
