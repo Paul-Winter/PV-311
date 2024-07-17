@@ -1,6 +1,7 @@
-	Lucidchart	|	Draw.io	|	Plantuml
-________________________|_______________|_______________________
-	$		|	free	|	free
-	simple		|	simple	|	exlusive sintax
-	graphic		|	graphic	|	text
-________________________|_______________|_______________________
+	Lucidchart	|	Draw.io		|	Plantuml
+			|	(diagrams.net)	|
+________________________|_______________________|_______________________
+	$		|	free		|	free
+	simple		|	simple		|	exlusive sintax
+	graphic		|	graphic		|	text
+________________________|_______________________|_______________________
