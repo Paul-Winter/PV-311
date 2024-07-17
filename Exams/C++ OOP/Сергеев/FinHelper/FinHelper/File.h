@@ -8,9 +8,13 @@ using namespace std;
 class File
 {
 protected:
-	const string _path = "\\FinHelper\\FinHelper\\x64\\Debug\\file.txt";
-	string text;
+	const string _path = "file.txt";
+public:
+	File();
 
-	void WriteFile();
+	void WriteFile(string nameWallet, string valute, int amountOfMoney);
+
+	void WriteFile(string nameCard, string valute, string cardType, int amountOfMoney, int creditLimit);
+	void ReadFile();
 };
 

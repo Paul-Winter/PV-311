@@ -3,9 +3,10 @@
 
 class Card : public Wallet
 {
-protected:
+public:
 	string cardType;
 	int cardLimit = 0;
+
 public:
 	Card();
 
@@ -18,6 +19,9 @@ public:
 	int  GetCardLimit();
 
 	void SetCardLimit(int cardLimit);
+
+	Card GetCard();
+
 
 	void SetCard(string cardName, string cardCurrency, string cardType, int cardLimit, int cardAmountOfMoney = 0);
 };

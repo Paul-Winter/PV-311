@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 #include "Currency.h"
 
 using namespace std;
@@ -29,12 +30,15 @@ public:
 	Wallet GetWallet()
 	{
 		Wallet _wallet;
+		std::cout << "Wallet name: " << walletName
+			<< "\nwallet amount of money: " << walletAmountOfMoney
+			<< " rub" << endl;
 		return _wallet;
 	}
 
 	void SetWallet(string walletName, string walletCurrency, int walletAmountOfMoney = 0);
 
-
+	void PayDay(string name, int payDay);
 
 };
 
