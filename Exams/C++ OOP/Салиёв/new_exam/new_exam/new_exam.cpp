@@ -105,12 +105,12 @@ public:
             string name;
             cin >> name;
             
-            while((exists(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name))))
+            while((exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name))))
             {
                 cout << "Error! User with that name already exists! Enter a different name." << endl;
                 cin >> name;
             }
-            create_directory("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name);
+            create_directory("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name);
             cout << name << ", pls, create a password: ";
             int pass, pass1;
             cin >> pass;
@@ -123,7 +123,7 @@ public:
                 cin >> pass1;
                 
             }
-            fstream in(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("password") + string(".txt")), ios::out);
+            fstream in(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("password") + string(".txt")), ios::out);
             in << pass1;
             in.close();
             cout << "User is created!" << endl;
@@ -135,7 +135,7 @@ public:
             cout << "Enter the name of the user (student) you want to delete: ";
             string name;
             cin >> name;
-           /* while(exists(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name)))
+           /* while(exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name)))
             {
                 cout << "User not found! Pls, try again!";
                 cin >> name;
@@ -145,11 +145,11 @@ public:
                 }
             }*/
            
-            remove(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("password") + string(".txt")));
-            remove(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("math") + string(".txt")));
-            remove(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("history") + string(".txt")));
-            remove(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("biology") + string(".txt")));
-            remove((string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name)));
+            remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("password") + string(".txt")));
+            remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("math") + string(".txt")));
+            remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("history") + string(".txt")));
+            remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("biology") + string(".txt")));
+            remove((string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name)));
            
             cout << "User is deleted!" << endl;
             displayMenu();
@@ -217,9 +217,9 @@ private:
 
     bool readMarks()
     {
-        if (exists(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(".txt"))))
+        if (exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(".txt"))))
         {      
-            ifstream in(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(".txt")), ios::in);
+            ifstream in(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(".txt")), ios::in);
             if (!in.is_open())
             {
                 cout << "not open!";
@@ -288,7 +288,7 @@ public:
         if (dispres == 1)
         {
             fstream in(("aM.txt"), ios::in);
-            fstream on(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("math") + string(".txt")), ios::in);
+            fstream on(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("math") + string(".txt")), ios::in);
             bool counting[5];
             int tA[5], uA[5];
             string tempT, tempU;
@@ -319,7 +319,7 @@ public:
         else if (dispres == 2)
         {
             fstream in(("hM.txt"), ios::in);
-            fstream on(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("history") + string(".txt")), ios::in);
+            fstream on(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("history") + string(".txt")), ios::in);
             bool counting[5];
             int tA[5], uA[5];
             string tempT, tempU;
@@ -355,8 +355,8 @@ public:
     virtual const void Math()
     {
         fstream in(("qM.txt"), ios::in);     
-        fstream on(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("math") + string(".txt")), ios::out);      
-        //fstream on(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(".txt")), ios::out);
+        fstream on(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("math") + string(".txt")), ios::out);      
+        //fstream on(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(".txt")), ios::out);
         string temp;
         int q = 0;
         int Anwers[5];
@@ -447,7 +447,7 @@ public:
     virtual const bool findName(const string& name) const final
     {
 
-        if (exists(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name)))
+        if (exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name)))
         {
             
             return true;     // работает норм
@@ -463,7 +463,7 @@ public:
     virtual const bool setpassword(string UserPassword)
     {
         std::ofstream out;          // поток для записи
-        out.open(string("C:\\Users\\Никита\\Desktop\\usersProfiles\\") + this->name + string(".txt"));      // открываем файл для записи
+        out.open(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\") + this->name + string(".txt"));      // открываем файл для записи
         if (out.is_open())
         {
             out << UserPassword << std::endl;
@@ -480,7 +480,7 @@ public:
             return false;
         } 
              
-            fstream in(string("C:\\Users\\Никита\\Desktop\\userProfiles\\" + name + string(("\\")) + string("password") + string(".txt")), ios::in);        
+            fstream in(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("password") + string(".txt")), ios::in);        
             string s;
             in >> s;        
             cout << s;
