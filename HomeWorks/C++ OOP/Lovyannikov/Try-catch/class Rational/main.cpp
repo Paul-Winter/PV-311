@@ -8,17 +8,16 @@ class Rational {
 public:
     Rational() = default;
 
-    Rational(int value)
-        : numerator_(value)
-        , denominator_(1) {
+    Rational(int value): numerator_(value), denominator_(1) {
     }
 
-    Rational(int numerator, int denominator)
-        : numerator_(numerator)
-        , denominator_(denominator)
-    {
+    Rational(int numerator, int denominator): numerator_(numerator), denominator_(denominator) {
+        if(denominator == 0){
+            throw domain_error("Denominator can't be 0."s);
+        } //запрет на создание обекта со знаменетелем = 0
         Normalize();
     }
+
 
     int Numerator() const {
         return numerator_;
