@@ -70,15 +70,19 @@ public:
     virtual const void Math() = 0;
     virtual const void History() = 0;
     virtual const void Biology() = 0;
+    
 };
 
 class Admin : public User
 {
 private:
+    
     virtual const void Math() final{};
     virtual const void History() final {};
     virtual const void Biology() final {};
     
+    
+   
     virtual const bool setpassword(string name)
     {
         
@@ -104,8 +108,8 @@ public:
             cout << "Pls, enter name new user (student): ";
             string name;
             cin >> name;
-            
-            while((exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name))))
+
+            while ((exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name))))
             {
                 cout << "Error! User with that name already exists! Enter a different name." << endl;
                 cin >> name;
@@ -116,43 +120,47 @@ public:
             cin >> pass;
             cout << "Pls, repeat password: ";
             cin >> pass1;
-            
+
             while (pass != pass1)
             {
                 cout << "Passwords don't match!, Enter the second password again!";
                 cin >> pass1;
-                
+
             }
             fstream in(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("password") + string(".txt")), ios::out);
             in << pass1;
             in.close();
             cout << "User is created!" << endl;
             displayMenu();
-                     
+
         }
         else if (choice == 2)
         {
             cout << "Enter the name of the user (student) you want to delete: ";
             string name;
             cin >> name;
-           /* while(exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name)))
-            {
-                cout << "User not found! Pls, try again!";
-                cin >> name;
-                if (atoi(name.c_str()) == 0)
-                {
-                    displayMenu();
-                }
-            }*/
-           
+            /* while(exists(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name)))
+             {
+                 cout << "User not found! Pls, try again!";
+                 cin >> name;
+                 if (atoi(name.c_str()) == 0)
+                 {
+                     displayMenu();
+                 }
+             }*/
+
             remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("password") + string(".txt")));
             remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("math") + string(".txt")));
             remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("history") + string(".txt")));
             remove(string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name + string(("\\")) + string("biology") + string(".txt")));
             remove((string("C:\\Users\\User\\Desktop\\PV-311\\Exams\\C++ OOP\\Салиёв\\new_exam\\new_exam\\" + name)));
-           
+
             cout << "User is deleted!" << endl;
             displayMenu();
+
+        }
+        else if (choice == 0)
+        {
             
         }
     }
@@ -433,7 +441,6 @@ public:
 
 
     }
-
     const void setName(const string& name) final
     {
         this->name = name;
@@ -495,12 +502,13 @@ public:
 };
 
 
-class Test
+class Test 
 {
 
 private:
     short int choiceUser;
     unique_ptr<User> usrPtr;
+    
 
 public:
 
@@ -517,7 +525,7 @@ public:
     }
 
 
-    void displayGMenu()
+    virtual void displayGMenu() final
     {
         cout << "Hello! Pls, choice student - 1 or admin - 0! " << endl;
         cin >> choiceUser;
