@@ -4,7 +4,7 @@
 //
 //  Created by Jaroslav on 26.07.2024.
 //это хрестоматийный пример, делал не сам, но по моему по нему наглядно можно разобрать этот паттерн
-// 
+// более или менее понятный
 #include <iostream>
 using namespace std;
 
@@ -64,7 +64,8 @@ class AbstractProductB
 /**
  * Конкретные Продукты создаются соответствующими Конкретными Фабриками.
  */
-class ConcreteProductB1 : public AbstractProductB {
+class ConcreteProductB1 : public AbstractProductB
+{
  public:
   string UsefulFunctionB() const override
     {
@@ -74,10 +75,11 @@ class ConcreteProductB1 : public AbstractProductB {
    * Продукт B1 может корректно работать только с Продуктом A1. Тем не менее, он
    * принимает любой экземпляр Абстрактного Продукта А в качестве аргумента.
    */
-  string AnotherUsefulFunctionB(const AbstractProductA &collaborator) const override {
+  string AnotherUsefulFunctionB(const AbstractProductA &collaborator) const override
+    {
     const string result = collaborator.UsefulFunctionA();
     return "The result of the B1 collaborating with ( " + result + " )";
-  }
+    }
 };
 
 class ConcreteProductB2 : public AbstractProductB
@@ -91,10 +93,11 @@ class ConcreteProductB2 : public AbstractProductB
    * Продукт B2 может корректно работать только с Продуктом A2. Тем не менее, он
    * принимает любой экземпляр Абстрактного Продукта А в качестве аргумента.
    */
-  string AnotherUsefulFunctionB(const AbstractProductA &collaborator) const override {
-    const std::string result = collaborator.UsefulFunctionA();
+  string AnotherUsefulFunctionB(const AbstractProductA &collaborator) const override
+    {
+    const string result = collaborator.UsefulFunctionA();
     return "The result of the B2 collaborating with ( " + result + " )";
-  }
+    }
 };
 
 /**
