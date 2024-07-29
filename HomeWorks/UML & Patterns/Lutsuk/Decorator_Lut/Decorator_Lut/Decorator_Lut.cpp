@@ -1,95 +1,110 @@
 ﻿
 #include <iostream>
 using namespace std;
-int picklescoast = 5;
+//int picklescoast = 5;
 
-class Burger
+class Burger {
+public:
+	string name;
+	int price;
+	Burger() {}
+	Burger(string name) :name{ name }
+	{
+
+	}
+	~Burger(){}
+	virtual string RenameBurger() = 0;
+	virtual int Price() = 0;
+};
+
+class Cheeseburger : Burger//public
 {
 public:
-    string name;
-    virtual int Price() = 0;
-    Burger(string name)
-    {
-        this->name = name;
-    };
-    Burger()
-    {};
 
+	Cheeseburger(): Burger("Cheeseburger")
+	{
+	}
+	int Price() override {
+		return price=7;
+	}
+	
+};
+
+class Wopper : Burger//public
+{
+public:
+
+	Wopper() :Burger("Wopper")
+	{
+	}
+
+	string RenameBurger() override {
+		return name;
+	}
+
+	int Price() override {
+		return price=9;
+	}
+	
+};
+
+class Decorator : public Burger
+{
 private:
-
-};
-class DoubleBurger : Burger
-{
-private:
-
+	Burger* burger;
 public:
-    DoubleBurger(string name)
-    {
-        this->name = "DoubleBurger";
-    };
+	Decorator();
+	Decorator(Burger* burger) 
+	{
+		this->burger = burger;
+	}
 
-    int Price()  override
-    {
-        return 7;
-    };
+	string RenameBurger() override {
+		burger->RenameBurger();
+	}
+
+	int Price() override {
+		burger->Price();
+	}
+	void SetBurger(Burger* burger) {
+		cout << Price() << endl;
+		cout << RenameBurger() << endl;
+	}
 
 };
 
-class CheeseBurger : Burger
-{
-public:
-    CheeseBurger(string name)
-    {
-        this->name = "CheeseBurger";
-    };
-
-    int Price() override
-    {
-        return 3;
-    };
-};
-class BurgerDecorator : Burger
+class Pickles : public Decorator
 {
 public:
-    Burger burger;
+	
+	Pickles();
+	Pickles(Burger* burger);
 
-    int Price() = 0;
-    BurgerDecorator(Burger burger, string name) : Burger(name)
-    {
-        this->burger = burger;
-    };
-};
-class Sauce : BurgerDecorator
-{
-public:
-    int Price() override
-    {
-        //return burger.Price() + saucecoast;
-    };
-};
+	void SetBurger(Burger* burger) {
+		cout << Price() << endl;
+		cout << RenameBurger() << endl;
+	}
 
-class Pickels : BurgerDecorator, Burger
-{
-public:
-    string NameBurgerWPickles() {
-        //return burger.name += " + Picles";
-    }
-    int Price() override
-    {
-        //return burger.Price() + picklescoast;
-    };
+	int Price() override 
+	{
+		return this->Price() + 3;
+	}
+	
+	string RenameBurger() override {
+		return RenameBurger() + " + Pickles";
+	}
 };
 
-class Sauce : BurgerDecorator
-{
-public:
-    int Price() override
-    {
-        //return burger.Price() + saucecoast;
-    };
-};
+
 int main()
-
 {
+	Cheeseburger *king();
+	Pickles* p();
+	
+	p->SetBurger((Burger*)king);
+
+	
+	
+
 
 }
