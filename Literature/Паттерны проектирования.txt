@@ -45,5 +45,11 @@
 - Prototype;
 - Singleton.
 
-
-- 
+Структурные паттерны:
+- Adapter;
+- Bridge;
+- Composite;
+- Decorator;
+- Facade;
+- Flyweight;
+- Proxy.
