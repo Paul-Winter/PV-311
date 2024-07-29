@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 #include <string>
 #include <fstream>
 #include<Windows.h>
@@ -7,7 +7,7 @@
 #pragma comment (lib, "winmm.lib")
 using namespace std;
 enum Color { Black = 0, Blue, Green, Cyan, Red, Magenta, Brown, LightGray, DarkGray, LightBlue, LightGreen, LightCyan, LightRed, LightMagenta, Yellow, White };
-HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);//получает дискриптор активного окна
+HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);//РїРѕР»СѓС‡Р°РµС‚ РґРёСЃРєСЂРёРїС‚РѕСЂ Р°РєС‚РёРІРЅРѕРіРѕ РѕРєРЅР°
 void SetColor(Color text, Color background)
 {
     SetConsoleTextAttribute(hStdOut, (WORD)((background << 4) | text));
@@ -28,71 +28,71 @@ public:
         return regi5;
     }
     void miny1() {
-        cout << "Добро пожаловать банк Байкал!" << endl;
-        cout << "что вы хотите приобрести? 0:дебетовый, 9: кредитной" << endl;
+        cout << "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ Р±Р°РЅРє Р‘Р°Р№РєР°Р»!" << endl;
+        cout << "С‡С‚Рѕ РІС‹ С…РѕС‚РёС‚Рµ РїСЂРёРѕР±СЂРµСЃС‚Рё? 0:РґРµР±РµС‚РѕРІС‹Р№, 9: РєСЂРµРґРёС‚РЅРѕР№" << endl;
         cin >> op;
         switch (op)
         {
         case '0':
-            cout << "Ввидите ФИО:" << endl;
+            cout << "Р’РІРёРґРёС‚Рµ Р¤РРћ:" << endl;
             cin >> regi;
             getline(cin, regi);
-            cout << "Ввидите номер тел:" << endl; cin >> regi1;
-            cout << "Дата рождения:" << endl; cin >> regi2;
-            cout << "Серий и номер паспорта:" << endl; cin >> regi3;
-            cout << "какой платежной системы вы хотите? viza,master card,мир,maestro,masterPass" << endl;
+            cout << "Р’РІРёРґРёС‚Рµ РЅРѕРјРµСЂ С‚РµР»:" << endl; cin >> regi1;
+            cout << "Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ:" << endl; cin >> regi2;
+            cout << "РЎРµСЂРёР№ Рё РЅРѕРјРµСЂ РїР°СЃРїРѕСЂС‚Р°:" << endl; cin >> regi3;
+            cout << "РєР°РєРѕР№ РїР»Р°С‚РµР¶РЅРѕР№ СЃРёСЃС‚РµРјС‹ РІС‹ С…РѕС‚РёС‚Рµ? viza,master card,РјРёСЂ,maestro,masterPass" << endl;
             cin >> regi4;
             getline(cin, regi4);
-            cout << "придумайте пин-код:" << endl; pass(); cin >> regi5;
+            cout << "РїСЂРёРґСѓРјР°Р№С‚Рµ РїРёРЅ-РєРѕРґ:" << endl; pass(); cin >> regi5;
             getline(cin, regi5);
             break;
         case '9':
-            cout << "Ввидите ФИО:" << endl;
+            cout << "Р’РІРёРґРёС‚Рµ Р¤РРћ:" << endl;
             cin >> regi10;
             getline(cin, regi10);
-            cout << "Ввидите номер тел:" << endl; cin >> regi11;
-            cout << "Дата рождения:" << endl; cin >> regi12;
-            cout << "Серий и номер паспорта:" << endl; cin >> regi13;
-            cout << "какой платежной системы вы хотите? viza,master card,мир,maestro,masterPass" << endl;
+            cout << "Р’РІРёРґРёС‚Рµ РЅРѕРјРµСЂ С‚РµР»:" << endl; cin >> regi11;
+            cout << "Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ:" << endl; cin >> regi12;
+            cout << "РЎРµСЂРёР№ Рё РЅРѕРјРµСЂ РїР°СЃРїРѕСЂС‚Р°:" << endl; cin >> regi13;
+            cout << "РєР°РєРѕР№ РїР»Р°С‚РµР¶РЅРѕР№ СЃРёСЃС‚РµРјС‹ РІС‹ С…РѕС‚РёС‚Рµ? viza,master card,РјРёСЂ,maestro,masterPass" << endl;
             cin >> regi14;
             getline(cin, regi4);
-            cout << "придумайте пин-код:" << endl; pass(); cin >> regi15;
+            cout << "РїСЂРёРґСѓРјР°Р№С‚Рµ РїРёРЅ-РєРѕРґ:" << endl; pass(); cin >> regi15;
             getline(cin, regi15);
             break;
         default:
             while (true) {
-                cout << "!!!!ТЕБЯ ЗА СКАМИЛИ!!!!" << endl;
+                cout << "!!!!РўР•Р‘РЇ Р—Рђ РЎРљРђРњРР›Р!!!!" << endl;
                 PlaySound(TEXT("D:\\Rick-Astley-Never-Gonna-Give-You-Up-_Official-Music-Video_.wav"), SND_SYNC, NULL);
             }
         }
     }
     void card() {
         int ttg = 0; string h;
-        cout << "войти:7" << endl;
-        cout << "поменять пин-код:9" << endl;
-        cout << "Выход:8" << endl;
+        cout << "РІРѕР№С‚Рё:7" << endl;
+        cout << "РїРѕРјРµРЅСЏС‚СЊ РїРёРЅ-РєРѕРґ:9" << endl;
+        cout << "Р’С‹С…РѕРґ:8" << endl;
         cin >> op1;
         switch (op1)
         {
         case '7':
             pass();
-            cout << "Ввидите пин-код:" << endl;
+            cout << "Р’РІРёРґРёС‚Рµ РїРёРЅ-РєРѕРґ:" << endl;
             cin >> regi5;
             getline(cin, regi5);
             break;
         default:
             while (true) {
-                cout << "!!!!ТЕБЯ ЗА СКАМИЛИ!!!!" << endl;
+                cout << "!!!!РўР•Р‘РЇ Р—Рђ РЎРљРђРњРР›Р!!!!" << endl;
                 PlaySound(TEXT("D:\\Rick-Astley-Never-Gonna-Give-You-Up-_Official-Music-Video_.wav"), SND_SYNC, NULL);
             }
         case '8':
-            cout << "Всего доброго до свидания!" << endl;
+            cout << "Р’СЃРµРіРѕ РґРѕР±СЂРѕРіРѕ РґРѕ СЃРІРёРґР°РЅРёСЏ!" << endl;
             exit(0);
             system("pause");
             break;
         case'9':
             cin >> regi5;
-            cout << "придумайте пин-код:" << endl;
+            cout << "РїСЂРёРґСѓРјР°Р№С‚Рµ РїРёРЅ-РєРѕРґ:" << endl;
             if (h == regi5)
             {
                 ttg = 1;
@@ -108,16 +108,16 @@ public:
         file1.close();
     }
     void miny(int D = 0, int N = 0, int M = 0) {
-        cout << "~~~КАТЕГОРИЯ~~~" << endl << "1:пополнить\n" << "2:топ расходы\n" << "3:посмотреть счёт на карте\n" << "4:Выход\n";
+        cout << "~~~РљРђРўР•Р“РћР РРЇ~~~" << endl << "1:РїРѕРїРѕР»РЅРёС‚СЊ\n" << "2:С‚РѕРї СЂР°СЃС…РѕРґС‹\n" << "3:РїРѕСЃРјРѕС‚СЂРµС‚СЊ СЃС‡С‘С‚ РЅР° РєР°СЂС‚Рµ\n" << "4:Р’С‹С…РѕРґ\n";
         cin >> op;
         switch (op)
         {
         case '1':
-            cout << "сколько хотите?" << endl;
+            cout << "СЃРєРѕР»СЊРєРѕ С…РѕС‚РёС‚Рµ?" << endl;
             cin >> viza;
             viza -= 10.43;
             viza--;
-            file << "с коммиссии:" << viza << ".Руб";
+            file << "СЃ РєРѕРјРјРёСЃСЃРёРё:" << viza << ".Р СѓР±";
             file.open("ggggg.txt");
             break;
         case '2':
@@ -126,16 +126,16 @@ public:
             //if (op == viza) {
             break;
         case '3':
-            file << "Баланс:" << viza << ".Руб" << endl;
+            file << "Р‘Р°Р»Р°РЅСЃ:" << viza << ".Р СѓР±" << endl;
             file.open("gggggg.txt");
             break;
         case '4':
-            cout << "Всего доброго до свидания!" << endl;
+            cout << "Р’СЃРµРіРѕ РґРѕР±СЂРѕРіРѕ РґРѕ СЃРІРёРґР°РЅРёСЏ!" << endl;
             exit(0);
             system("pause");
         default:
             while (true) {
-                cout << "!!!!ТЕБЯ ЗА СКАМИЛИ!!!!" << endl;
+                cout << "!!!!РўР•Р‘РЇ Р—Рђ РЎРљРђРњРР›Р!!!!" << endl;
                 PlaySound(TEXT("D:\\Rick-Astley-Never-Gonna-Give-You-Up-_Official-Music-Video_.wav"), SND_SYNC, NULL);
             }
         }
