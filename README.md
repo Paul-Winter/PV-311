@@ -1,7 +1,8 @@
+# TOP-Academy
 # PV-311
 ## Educational
 
-### Contributors:
+### Collaborators:
 
 #### * Zimin
 #### * LUTSUK
