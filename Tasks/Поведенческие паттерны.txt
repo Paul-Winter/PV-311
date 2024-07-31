@@ -1,0 +1,8 @@
+Предоставить реализацию поведенческого паттерна:
+Гладырев	- Iterator;
+Ловянников	- Visitor;
+Луцук		- Memento;
+Морозова	- Mediator;
+Ряжских		- State;
+Салиёв		- Observer;
+Сергеев		- Template Method.
