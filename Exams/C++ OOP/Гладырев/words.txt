@@ -1,0 +1,8 @@
+mother
+father
+sister
+brother
+dude
+sibling
+student
+teacher
