@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Singletone
 Command
 Flyweight
@@ -7,4 +8,15 @@ State
 Strategy
 Decorator
 Visitor
+=======
+Singletone
+Command
+Flyweight
+Observer
+Prototype
+State
+Strategy
+Decorator
+Visitor
+>>>>>>> db19fb261b408b31cbcd2cf7c34d63a8f55f2d17
 CRTP

@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/Observer.dir
 C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/edit_cache.dir
 C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/rebuild_cache.dir
 C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/list_install_components.dir
 C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/install.dir
 C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/install/local.dir
+=======
+C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/Observer.dir
+C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/edit_cache.dir
+C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/rebuild_cache.dir
+C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/list_install_components.dir
+C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/install.dir
+C:/Users/Predator/Desktop/DesignPatternsCpp/For_construct/CMakeFiles/install/local.dir
+>>>>>>> db19fb261b408b31cbcd2cf7c34d63a8f55f2d17

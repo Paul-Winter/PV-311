@@ -1,5 +1,4 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 using namespace std;
 //int picklescoast = 5;
 
@@ -7,44 +6,37 @@ class Burger {
 public:
 	string name;
 	int price;
-	Burger() {}
-	Burger(string name) :name{ name }
-	{
-
-	}
-	~Burger(){}
-	virtual string RenameBurger() = 0;
+	Burger() {};
+	//Burger(string name) :name{ name } {};
+	~Burger() {};
+	//virtual string RenameBurger() = 0;
 	virtual int Price() = 0;
 };
 
-class Cheeseburger : Burger//public
+class Cheeseburger : public Burger//public
 {
 public:
 
-	Cheeseburger(): Burger("Cheeseburger")
-	{
-	}
+	Cheeseburger() : Burger() {};
 	int Price() override {
-		return price=7;
-	}
+		return price = 7;
+	};
 	
 };
 
-class Wopper : Burger//public
+class Wopper : public Burger//public
 {
 public:
 
-	Wopper() :Burger("Wopper")
-	{
-	}
+	Wopper() : Burger() {};
 
-	string RenameBurger() override {
-		return name;
-	}
+	//string RenameBurger() override {
+	//	return name;
+	//}
 
 	int Price() override {
-		return price=9;
-	}
+		return price = 9;
+	};
 	
 };
 
@@ -53,23 +45,23 @@ class Decorator : public Burger
 private:
 	Burger* burger;
 public:
-	Decorator();
-	Decorator(Burger* burger) 
+	//Decorator();
+	Decorator(Burger* burger)
 	{
 		this->burger = burger;
-	}
+	};
 
-	string RenameBurger() override {
-		burger->RenameBurger();
-	}
+	//string RenameBurger() override {
+	//	burger->RenameBurger();
+	//}
 
 	int Price() override {
 		burger->Price();
-	}
-	void SetBurger(Burger* burger) {
-		cout << Price() << endl;
-		cout << RenameBurger() << endl;
-	}
+	};
+	//void SetBurger(Burger* burger) {
+	//	cout << Price() << endl;
+	//	cout << RenameBurger() << endl;
+	//}
 
 };
 
@@ -77,34 +69,29 @@ class Pickles : public Decorator
 {
 public:
 	
-	Pickles();
+	//Pickles();
 	Pickles(Burger* burger);
 
-	void SetBurger(Burger* burger) {
-		cout << Price() << endl;
-		cout << RenameBurger() << endl;
-	}
+	//void SetBurger(Burger* burger) {
+	//	cout << Price() << endl;
+	//	cout << RenameBurger() << endl;
+	//}
 
-	int Price() override 
+	virtual int Price()
 	{
 		return this->Price() + 3;
-	}
+	};
 	
-	string RenameBurger() override {
-		return RenameBurger() + " + Pickles";
-	}
+	//string RenameBurger() override {
+	//	return RenameBurger() + " + Pickles";
+	//}
 };
 
 
 int main()
 {
-	Cheeseburger *king();
-	Pickles* p();
+	Cheeseburger* king = new Cheeseburger;
+	Pickles* p = new Pickles(king);
 	
-	p->SetBurger((Burger*)king);
-
-	
-	
-
-
+	p->Price();
 }
