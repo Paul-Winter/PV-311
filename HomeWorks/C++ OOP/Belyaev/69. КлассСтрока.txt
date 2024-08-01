@@ -1,0 +1,174 @@
+﻿*******************************************main.cpp*******************************************
+//ЗАДАНИЕ.
+//Разработать класс String, который в дальнейшем будет
+//использоваться для работы со строками.Класс должен содержать:
+//Конструктор по умолчанию, позволяющий создать строку длиной 80 символов;
+//Конструктор, позволяющий создавать строку произвольного размера;
+//Конструктор, который создаёт строку и инициализирует её строкой, полученной от пользователя.
+//Необходимо создать деструктор, а также использовать
+//механизмы делегирования конструкторов, если это возможно.
+//Класс должен содержать методы для ввода строк с клавиатуры и вывода строк на экран.Также нужно реализовать
+//статическую функцию - член, которая будет возвращать количество созданных объектов строк.
+
+#include <iostream>
+#include "string.h"
+using namespace std;
+
+int main()
+{
+    String string1("Hello world!");
+    String string2{ string1 };
+    String string3("New word");
+    String string4 = string1 * string3;
+    
+    cout << "Creating " << String::CountStr() << " objects." << endl;
+    
+    string2.showString();
+    string2.inputString();
+    string2.showString();
+
+
+
+    return 0;
+}
+*******************************************string.h*******************************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class String
+{
+private:
+	char* array = nullptr;
+	int  size = 80;
+	static int counter;
+public:
+	String();
+	String(const int size);
+	String(const char* const str);
+	String(const String& str);
+	static int sizeString(const char* const str);
+	void showString() const;
+	void inputString();
+	static int CountStr();
+	String operator*(const String& str);
+	~String();
+};
+*******************************************string.cpp*******************************************
+#include "string.h"
+
+String::String()
+{
+	this->array = new char[this->size];
+	cout << "Creating () " << "size=" << strlen(this->array) << ", string: ";
+	for (int i = 0; i < strlen(this->array); i++)
+	{
+		cout << this->array[i];
+	}
+	cout << endl;
+	++counter;
+}
+
+String::String(const int size) : size{ size }
+{
+	this->array = new char[this->size];
+	cout << "Creating (const int size) " << "size=" << strlen(this->array) << ", string: ";
+	for (int i = 0; i < strlen(this->array); i++)
+	{
+		cout << this->array[i];
+	}
+	cout << endl;
+	++counter;
+}
+
+String::String(const char* const str) : size{ sizeString(str) }
+{
+	this->array = new char[this->size];
+	strcpy_s(array, this->size, str);
+	cout << "Creating (const char* const str) " << "size=" << strlen(this->array) << ", string: ";
+	for (int i = 0; i < strlen(this->array); i++)
+	{
+		cout << this->array[i];
+	}
+	cout << endl;
+	++counter;
+}
+
+String::String(const String& str) : size{ str.size }
+{
+	this->array = new char[this->size];
+	strcpy_s(array, this->size, str.array);
+	cout << "Creating (const String& str) " << "size=" << strlen(this->array) << ", string: ";
+	for (int i = 0; i < strlen(this->array); i++)
+	{
+		cout << this->array[i];
+	}
+	cout << endl;
+	++counter;
+}
+
+int String::sizeString(const char* const str)
+{
+	return strlen(str) + 1;
+}
+
+void String::showString() const
+{
+	cout << this->array << endl;
+}
+
+void String::inputString()
+{
+	cout << "Enter new string: ";
+	cin.getline(this->array, 2048);
+}
+
+int String::CountStr()
+{
+	return counter;
+}
+
+String String::operator*(const String& str)
+{
+	int maxLenght = 0;
+	int counter = 0;
+
+	if (strlen(this->array)>= strlen(str.array))
+	{
+		maxLenght = strlen(this->array);
+	}
+	else
+	{
+		maxLenght = strlen(str.array);
+	}
+
+	char* mass = new char[maxLenght + 1];
+	for (int i = 0; i < strlen(this->array); ++i)
+	{
+		for (int j = 0; j < strlen(str.array); j++)
+		{
+			if (this->array[i] == str.array[j])
+			{
+				mass[counter] = str.array[j];
+				++counter;
+			}
+		}
+	}
+	mass[counter] = '\0';
+	
+	cout << this->array << "*" << str.array << "=" << mass << endl;
+	return String(mass);
+}
+
+String::~String()
+{
+	cout << "Deleting " << strlen(this->array) << " ";
+	for (int i = 0; i < strlen(this->array); i++)
+	{
+		cout << this->array[i];
+	}
+	cout << endl;
+	delete[] this->array;
+}
+
+int String::counter = 0;

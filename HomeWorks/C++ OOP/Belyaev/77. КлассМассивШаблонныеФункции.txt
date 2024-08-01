@@ -1,0 +1,191 @@
+﻿*********************************main.cpp*******************************
+//ЗАДАНИЕ 1.
+//Реализуйте шаблонные функции для поиска максимума,
+//минимума, сортировки массива (любым алгоритмом сортировки),
+//двоичного поиска в массиве, замены элемента
+//массива на переданное значение.
+
+#include <iostream>
+#include "array.h"
+
+using namespace std;
+
+int main()
+{     
+    int size = 15;
+    int elem = 7;
+    int ind = 0;
+
+    Array arr(size);
+    arr.display();
+    sortArray<int>(arr.mass, size);
+    arr.display();
+    cout << "Max element = " << arr.mass[arrayMax<int>(arr.mass, size)] << endl;
+    cout << "Min element = " << arr.mass[arrayMin<int>(arr.mass, size)] << endl;
+    ind = binSearch<int>(arr.mass, elem, size);
+    cout << "Binary search: " << ind << endl;
+    
+    if (ind > 0)
+    {
+        insertToArray<int>(arr.mass, 0, ind, size);
+        arr.display();
+    }
+ 
+    return 0;
+}
+**********************************array.h**********************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class Array
+{
+public:
+
+	int size;
+	int* mass;
+	
+	int countSize(int* mass);
+	void fillRandom(int limit);
+	Array();
+	Array(int size);
+	Array(Array&& object);
+	~Array();
+	void display();
+	
+};
+
+template<class T>
+void sortArray(T array[], int size)
+{
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size - 1; ++j)
+		{
+			if (array[j] > array[j + 1])
+			{
+				swap(array[j], array[j + 1]);
+			}
+		}
+	}
+}
+
+template<class T>
+int arrayMax(T array[], int size)
+{
+	T max = array[0];
+	int index = 0;
+
+	for (int i = 0; i < size; ++i)
+	{
+		if (array[i] > max)
+		{
+			index = i;
+			max = array[i];
+		}
+	}
+	return index;
+}
+
+template<class T>
+int arrayMin(T array[], int size)
+{
+	T min = array[0];
+	int index = 0;
+
+	for (int i = 0; i < size; ++i)
+	{
+		if (array[i] < min)
+		{
+			index = i;
+			min = array[i];
+		}
+	}
+	return index;
+}
+
+template<class T>
+int binSearch(T array[], T element, int size)
+{
+	int left = 0;
+	int mid = 0;
+	int right = size - 1;
+	
+	while (left <= right)
+	{
+		mid = left + (right - left) / 2;
+		
+		if (array[mid] == element)
+		{
+			return mid;
+		}
+		else if (array[mid] < element)
+		{
+			left = mid + 1;
+		}
+		else
+		{
+			right = mid - 1;
+		}
+	}
+
+    return -1;
+}
+
+template<class T>
+void insertToArray(T array[], T element, int index, int size)
+{
+	if (index < size)
+	{
+		array[index] = element;
+	}
+}
+*************************************array.cpp*********************************
+#include "array.h"
+
+int Array::countSize(int* mass)
+{
+    return _msize(mass) / 4;
+}
+
+void Array::fillRandom(int limit)
+{
+    for (int i{ 0 }; i < limit; ++i)
+    {
+        this->mass[i] = rand() % limit;
+    }
+}
+
+Array::Array() : Array(0)
+{
+    
+}
+
+Array::Array(int size) : mass{ new int[size] {} }, size{ size }
+{
+    fillRandom(size);
+}
+
+Array::Array(Array&& object) : mass{ object.mass }, size{ object.size }
+{
+    cout << "Removing constructor, size=" << this->size << ", ";
+    display();
+    object.mass = nullptr;
+    object.size = 0;
+}
+
+Array::~Array()
+{
+    cout << "Deleting ";
+    display();
+    delete[] mass;
+}
+
+void Array::display()
+{
+    for (int i = 0; i < size; ++i)
+    {
+        cout << this->mass[i] << ' ';
+    }
+    cout << endl;
+}

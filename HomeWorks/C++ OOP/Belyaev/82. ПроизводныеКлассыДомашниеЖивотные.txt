@@ -1,0 +1,187 @@
+﻿****************************************main.cpp******************************
+//ЗАДАНИЕ 1.
+//Создать базовый класс «Домашнее животное» и производные классы «Собака»,
+//«Кошка», «Попугай». С помощью конструктора установить имя каждого
+//животного и его характеристики.
+
+#include <iostream>
+#include "pets.h"
+
+int main()
+{
+    cout << "DOG: " << endl;
+    Dog newDog(" "," ",0," ");
+    newDog.setName("Name");
+    newDog.setColor("White");
+    newDog.SetAge(5);
+    newDog.setDogBreed("Breed");
+    newDog.Type();
+    newDog.Show();
+
+    cout << "CAT: " << endl;
+    Dog newCat(" ", " ", 0, " ");
+    newCat.setName("Name2");
+    newCat.setColor("Black");
+    newCat.SetAge(1);
+    newCat.setDogBreed("Breed2");
+    newCat.Type();
+    newCat.Show();
+
+    cout << "PARROT: " << endl;
+    Dog newParrot("Name3", "Red", 2, "Breed3");
+    newParrot.Type();
+    newParrot.Show();
+
+    return 0;
+}
+************************************pets.h***********************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class Pet
+{
+private:
+
+    string name;
+    string color;
+    int age;
+
+public:
+
+    Pet() : name(" "), color(" "), age(0)
+    {
+
+    }
+    
+    Pet(string name, string color, int age)
+    {
+        this->name = name;
+        this->color = color;
+        this->age = age;
+    }
+
+    virtual void Show() = 0
+    {
+        cout << "Name : " << this->name << endl;
+        cout << "Color : " << this->color << endl;
+        cout << "Age: " << this->age << endl;
+    }
+    
+    void setName(string name)
+    {
+        this->name = name;
+    }
+    
+    void setColor(string color)
+    {
+        this->color = color;
+    }
+
+    void SetAge(int age)
+    {
+        this->age = age;
+    }
+};
+
+class Dog :public Pet
+{
+private:
+    
+    string dogBreed;
+
+public:
+    
+    Dog() : dogBreed(" ")
+    {
+
+    }
+    
+    Dog(string name, string color, int age, string breed) : Pet(name, color, age)
+    {
+        this->dogBreed = breed;
+    }
+        
+    void Show()
+    {
+        Pet::Show();
+    }
+    
+    void Type()
+    {
+        cout << "Breed of the dog: " << this->dogBreed << endl;
+    }
+    
+    void setDogBreed(string breed)
+    {
+        this->dogBreed = breed;
+    }
+};
+ 
+class Cat :public Pet
+{
+private:
+    
+    string catBreed;
+
+public:
+    
+    Cat() : catBreed(" ")
+    {
+
+    }
+    
+    Cat(string name, string color, int age, string breed) :Pet(name, color, age)
+    {
+        this->catBreed = breed;
+    }
+    
+    void Show()
+    {
+        Pet::Show();
+    }
+    
+    void Type()
+    {
+        cout << "Breed of the cat: " << this->catBreed << endl;
+    }
+
+    void setCatBreed(string breed)
+    {
+        this->catBreed = breed;
+    }
+};
+ 
+class Parrot : public Pet
+{
+private:
+    
+    string parrotBreed;
+
+public:
+    
+    Parrot() : parrotBreed(" ")
+    {
+
+    }
+    
+    Parrot(string name, string color, int age, string breed) : Pet(name, color, age)
+    {
+        parrotBreed = breed;
+    }
+    
+    void Show()
+    {
+        Pet::Show();
+    }
+    
+    void Type()
+    {
+        cout << "Breed of the parrot: " << this->parrotBreed << endl;
+    }
+    
+    void SetParrotBreed(string breed)
+    {
+        parrotBreed = breed;
+    }
+};

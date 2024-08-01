@@ -1,0 +1,788 @@
+***************************************main.cpp**************************************
+//ЗАДАНИЕ.
+//Разработать класс Reservoir (водоем). Класс должен обязательно иметь поле «название».
+//Класс должен содержать:
+//конструктор по умолчанию, конструктор с параметрами,
+//при необходимости реализовать деструктор и конструктор копирования.
+//Добавить методы для:
+//1. Определения приблизительного объема (ширина * длина * максимальная глубина);
+//2. Определения площади водной поверхности;
+//3. Метод для проверки относятся ли водоемы к одному типу (море - море; бассейн - пруд);
+//4. Для сравнения площади водной поверхности водоемов одного типа;
+//5. Для копирования объектов;
+//6. Остальные методы на усмотрение разработчика(методы set и get).
+//Написать интерфейс для работы с классом. Реализовать динамический массив объектов 
+//класса с возможностью добавления, удаления объектов из массива. Реализовать
+//возможность записи информации об объектах массива в текстовый файл, бинарный файл.
+//Используйте explicit конструктор и константные функции члены(например, для 
+//отображения данных о водоёме и т.д.).
+
+#include <iostream>
+#include "reservoir.h"
+using namespace std;
+
+int main()
+{
+    const char* path_txt = "C:\\Intel\\reservoir.txt";
+    const char* path_bin = "C:\\Intel\\reservoir.bin";
+
+    int user_choise = 0;
+    int k = 0;
+    int k2 = 0;
+    int k3 = 0;
+    int size = 1;
+    int record_counter = 0;
+    
+    record_counter = count_records(path_txt);
+    if (record_counter > 0)
+    {
+        size = record_counter;
+    }
+
+    Reservoir* reservoirs = new Reservoir[size];
+
+    if (record_counter > 0)
+    {
+        reservoirs = load_char_array(path_txt, reservoirs, record_counter);
+    }
+    
+    while (user_choise != 9)
+    {
+        user_choise = menu(path_txt);
+        record_counter = count_records(path_txt);
+
+        switch (user_choise)
+        {
+        case 1:
+            reservoirs = addReservoir(reservoirs, record_counter, CreateReservoir());
+            ++record_counter;
+            saveArray(path_txt, path_bin, reservoirs, record_counter);
+            break;
+        case 2:
+            if (count_records(path_txt) < 1)
+            {
+                cout << "Reservoirs is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                list(reservoirs, record_counter);
+                cout << "Enter number of reservoir to edit(1-" << count_records(path_txt) << "):";
+                cin >> k;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                reservoirs = editReservoir(reservoirs, record_counter, k);
+                saveArray(path_txt, path_bin, reservoirs, record_counter);
+            }
+            break;
+        case 3:
+            if (count_records(path_txt) < 1)
+            {
+                cout << "Reservoirs is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                list(reservoirs, record_counter);
+                cout << "Enter number of reservoir to delete(1-" << count_records(path_txt) << "):";
+                cin >> k;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                reservoirs = deleteReservoir(reservoirs, record_counter, k);
+                --record_counter;
+                saveArray(path_txt, path_bin, reservoirs, record_counter);
+            }
+            break;
+        case 4:
+            list(reservoirs, record_counter);
+            system("pause");
+            break;
+        case 5:
+            if (count_records(path_txt) < 1)
+            {
+                cout << "Reservoirs is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                list(reservoirs, record_counter);
+                cout << "Enter number of reservoir to volume calculation (1-" << count_records(path_txt) << "):";
+                cin >> k;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Volume of this reservoir is: " << reservoirs[k - 1].volume() << endl;
+                system("pause");
+            }
+            break;
+        case 6:
+            if (count_records(path_txt) < 1)
+            {
+                cout << "Reservoirs is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                list(reservoirs, record_counter);
+                cout << "Enter number of reservoir to calculate surface area  (1-" << count_records(path_txt) << "):";
+                cin >> k;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Surface area of this reservoir is: " << reservoirs[k - 1].area() << endl;
+                system("pause");
+            }
+            break;
+        case 7:
+            if (count_records(path_txt) < 1)
+            {
+                cout << "Reservoirs is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                list(reservoirs, record_counter);
+                cout << "Enter number of first reservoir to compare type (1-" << count_records(path_txt) << "):";
+                cin >> k;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Enter number of second reservoir to compare type (1-" << count_records(path_txt) << "):";
+                cin >> k2;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                if (reservoirs[k - 1].sameType(reservoirs[k2 - 1]))
+                {
+                    cout << "This reservoirs is the same type!" << endl;
+                }
+                else
+                {
+                    cout << "This reservoirs is't the same type!" << endl;
+                }
+                system("pause");
+            }
+            break;
+        case 8:
+            if (count_records(path_txt) < 1)
+            {
+                cout << "Reservoirs is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                list(reservoirs, record_counter);
+                cout << "Enter number of first reservoir to compare surface area (1-" << count_records(path_txt) << "):";
+                cin >> k;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Enter number of second reservoir to compare surface area (1-" << count_records(path_txt) << "):";
+                cin >> k2;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                k3 = reservoirs[k - 1].areaCompare(reservoirs[k2 - 1]);
+                
+                if (k3 == 0)
+                {
+                    cout << "This reservoirs is't the same type!" << endl;
+                }
+                if (k3 == 1)
+                {
+                    cout << "First reservoir are more!" << endl;
+                }
+                if (k3 == 2)
+                {
+                    cout << "Second reservoir are more!" << endl;
+                }
+                if (k3 == 3)
+                {
+                    cout << "This reservoirs are equal!" << endl;
+                }
+                system("pause");
+            }
+            break;
+        default:
+            user_choise = 9;
+        }
+    }
+
+    return 0;
+}
+***************************************reservoir.h**************************************
+#pragma once
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+class Reservoir
+{
+private:
+	
+	char* name;
+	int lenght;
+	int width;
+	int depth;
+	int typeR;
+	
+public:
+	
+	Reservoir();
+
+	explicit Reservoir(const char* newName, const int newLenght, const int newWidth, const int newDepth, const int newType_of_reservoir);
+
+	void display();
+	
+	char* typeName(int typeR);
+
+	char* fullString();
+
+	int volume() const;
+
+	int area() const;
+
+	bool sameType(const Reservoir currentReservoir) const;
+
+	int areaCompare(const Reservoir currentReservoir) const;
+
+};
+
+int count_records(const char* path_txt);
+
+int menu(const char* path_txt);
+
+int char2int(char* str);
+
+Reservoir string2class(char* string);
+
+Reservoir* load_char_array(const char* path_txt, Reservoir* reservoirs, int size);
+
+Reservoir CreateReservoir();
+
+Reservoir* addReservoir(Reservoir* reservoirs, const int size, const Reservoir);
+
+void saveArray(const char* path_txt, const char* path_bin, Reservoir* reservoirs, int size);
+
+char* concatenate_string(char* string1, char* string2);
+
+char* int2sring(int number);
+
+void list(Reservoir* reservoirs, const int size);
+
+Reservoir* editReservoir(Reservoir* reservoirs, const int size, const int index);
+
+Reservoir* deleteReservoir(Reservoir* reservoirs, const int size, const int index);
+
+***************************************reservoir.h**************************************
+#include <iostream>
+#include "reservoir.h"
+
+Reservoir::Reservoir() : Reservoir{ nullptr, 0, 0, 0, 0 }
+{
+    
+}
+
+Reservoir::Reservoir(const char* newName, const int newLenght, const int newWidth, const int newDepth, const int newType_of_reservoir) :
+    name{ newName ? new char[strlen(newName) + 1] : nullptr }, lenght{ newLenght }, width{ newWidth }, depth{ newDepth }, typeR { newType_of_reservoir }
+{
+    if (newName)
+    {
+        strcpy_s(this->name, strlen(newName) + 1, newName);
+    }
+}
+
+void Reservoir::display()
+{
+    cout << "Name: " << this->name << ", lenght: " << this->lenght << "(km), width: " << this->width << "(km), depth: " << this->depth << "(km), type of reservoir: " << typeName(this->typeR) << endl;
+}
+
+char* Reservoir::typeName(int typeR)
+{
+    char* typeN;
+
+    switch (typeR)
+    {
+    case 1:
+        typeN = new char[4] {'s', 'e', 'a', '\0'};
+        break;
+    case 2:
+        typeN = new char[5] { 'l', 'a', 'k', 'e', '\0'};
+        break;
+    default:
+        typeN = new char[5] { 'l', 'a', 'k', 'e', '\0'};
+    }
+
+    return typeN;
+}
+
+char* Reservoir::fullString()
+{
+    int string_size = 255;
+    char* current_string = new char[string_size];
+
+    char* comma = new char[2] {',', '\0'};
+
+    current_string = concatenate_string(this->name, comma);
+    current_string = concatenate_string(current_string, int2sring(this->lenght));
+    current_string = concatenate_string(current_string, comma);
+    current_string = concatenate_string(current_string, int2sring(this->width));
+    current_string = concatenate_string(current_string, comma);
+    current_string = concatenate_string(current_string, int2sring(this->depth));
+    current_string = concatenate_string(current_string, comma);
+    current_string = concatenate_string(current_string, int2sring(this->typeR));
+
+    delete[] comma;
+    
+    return current_string;
+}
+
+int Reservoir::volume() const
+{
+    return this->lenght * this->width * this->depth;
+}
+
+int Reservoir::area() const
+{
+    return this->lenght * this->width;
+}
+
+bool Reservoir::sameType(const Reservoir currentReservoir) const
+{
+    if (this->typeR == currentReservoir.typeR)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int Reservoir::areaCompare(const Reservoir currentReservoir) const
+{
+    int area1 = 0;
+    int area2 = 0;
+
+    if (this->typeR != currentReservoir.typeR)
+    {
+        return 0;
+    }
+    else
+    {
+        area1 = this->area();
+        area2 = currentReservoir.lenght * currentReservoir.width;
+        
+        if (area1 == area2)
+        {
+            return 3;
+        }
+
+        if (area1 > area2)
+        {
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
+    }
+}
+
+int count_records(const char* path_txt)                     //функция подсчёта записей в файле
+{
+    int counter = 0;
+    int string_size = 255;
+    char* current_string = new char[string_size];
+
+    ifstream file;
+    file.open(path_txt);
+
+    if (file.is_open())
+    {
+        while (!file.eof())
+        {
+            file.getline(current_string, string_size);
+            
+            if (strlen(current_string)>0)
+            {
+                ++counter;
+            }
+        }
+    }
+    else
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+
+    delete[] current_string;
+
+    return counter;
+}
+
+int menu(const char* path_txt)                  //основное меню
+{
+    system("cls");
+    int cont = 0;
+
+    while (cont < 1 || cont > 9)
+    {
+        cout << "- RESERVOIRS -" << endl;
+        cout << "1. Add new reservoir." << endl;
+        cout << "2. Edit reservoir." << endl;
+        cout << "3. Delete reservoir." << endl;
+        cout << "4. List all reservoirs(" << count_records(path_txt) << ")." << endl;
+        cout << "5. Volume of reservoir." << endl;
+        cout << "6. Surface area of reservoir." << endl;
+        cout << "7. Compare type of reservoirs." << endl;
+        cout << "8. Compare surface area of reservoirs." << endl;
+        cout << "9. Quit." << endl;
+        cout << "Your choise(1-9): ";
+        cin >> cont;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    return cont;
+}
+
+int char2int(char* str)
+{
+    int counter = 0;
+    int number = 0;
+    while (str[counter] != '\0')
+    {
+        ++counter;
+    }
+
+    int i = counter - 1;
+    int r = 1;
+    while (i > -1)
+    {
+        switch (r)
+        {
+        case 1:
+        {
+            number += (int)str[i] - 48;
+            break;
+        }
+        case 2:
+        {
+            number += ((int)str[i] - 48) * 10;
+            break;
+        }
+        case 3:
+        {
+            number += ((int)str[i] - 48) * 100;
+            break;
+        }
+        case 4:
+        {
+            number += ((int)str[i] - 48) * 1000;
+            break;
+        }
+        case 5:
+        {
+            number += ((int)str[i] - 48) * 10000;
+            break;
+        }
+        case 6:
+        {
+            number += ((int)str[i] - 48) * 100000;
+            break;
+        }
+        case 7:
+        {
+            number += ((int)str[i] - 48) * 1000000;
+            break;
+        }
+        case 8:
+        {
+            number += ((int)str[i] - 48) * 10000000;
+            break;
+        }
+        default:
+        {
+            number += ((int)str[i] - 48) * 100000000;
+        }
+        }
+        --i;
+        ++r;
+    }
+    return number;
+}
+
+Reservoir string2class(char* string)
+{
+    int counter = 0;
+    int separator = 0;
+    int lenght = strlen(string);
+    int string_size = 255;
+    char* current_string = new char[string_size];
+    
+    char* c_name = new char[string_size];;
+    int c_lenght = 0;
+    int c_width = 0;
+    int c_depth = 0;
+    int c_typeR = 0;
+    
+    for (int i = 0; i < lenght; i++)
+    {
+        if (string[i] == ',')
+        {
+            ++separator;
+
+            if (separator == 1)
+            {
+                current_string[counter] = '\0';
+                strcpy_s(c_name, strlen(current_string) + 1, current_string);
+                counter = 0;
+            }
+            
+            if (separator == 2)
+            {
+                current_string[counter] = '\0';
+                c_lenght = char2int(current_string);
+                counter = 0;
+            }
+
+            if (separator == 3)
+            {
+                current_string[counter] = '\0';
+                c_width = char2int(current_string);
+                counter = 0;
+            }
+
+            if (separator == 4)
+            {
+                current_string[counter] = '\0';
+                c_depth = char2int(current_string);
+                counter = 0;
+            }
+        }
+        else
+        {
+            current_string[counter] = string[i];
+            ++counter;
+        }
+    }
+    
+    current_string[counter] = '\0';
+    c_typeR = char2int(current_string);
+
+    Reservoir newReservoir{ c_name, c_lenght, c_width, c_depth, c_typeR };
+
+    return newReservoir;
+}
+
+Reservoir* load_char_array(const char* path_txt, Reservoir* reservoirs, int size)
+{
+    int counter = 0;
+    int string_size = 255;
+    char* current_string = new char[string_size];
+
+    ifstream file;
+    file.open(path_txt);
+
+    if (file.is_open())
+    {
+        while (!file.eof())
+        {
+  
+            file.getline(current_string, string_size);
+            reservoirs[counter] = string2class(current_string);
+            ++counter;
+        }
+    }
+    else
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+
+    delete[] current_string;
+
+    return reservoirs;
+}
+
+Reservoir CreateReservoir()
+{
+    char* name = new char[255]; 
+    int lenght = 0;
+    int width = 0;
+    int depth = 0;
+    int typeR = 0;
+        
+    cout << "Enter name of reservoir: ";
+    cin.getline(name, 255);
+
+    cout << "Enter type of reservoir (1 - sea, 2 - lake): ";
+    cin >> typeR;
+
+    cout << "Enter lenght of reservoir (km): ";
+    cin >> lenght;
+
+    cout << "Enter width of reservoir (km): ";
+    cin >> width;
+
+    cout << "Enter depth of reservoir (km): ";
+    cin >> depth;
+
+    Reservoir newReservoir {name, lenght, width, depth, typeR };
+
+    return newReservoir;
+}
+
+Reservoir* addReservoir(Reservoir* reservoirs, const int size, const Reservoir newReservoir)
+{
+    Reservoir* newReservoirs = new Reservoir[size + 1];
+    for (int i = 0; i < size; i++)
+    {
+        newReservoirs[i] = reservoirs[i];
+    }
+    newReservoirs[size] = newReservoir;
+    
+    delete[] reservoirs;
+
+    return newReservoirs;
+}
+
+void saveArray(const char* path_txt, const char* path_bin, Reservoir* reservoirs, int size)
+{
+     
+    ofstream file;
+    file.open(path_txt);
+
+    if (file.is_open())
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if (i == size - 1)
+            {
+                file << reservoirs[i].fullString();
+            }
+            else
+            {
+                file << reservoirs[i].fullString() << '\n';
+            }
+         }
+        
+        ofstream out(path_bin, ios::binary | ios::out);
+
+        if (out.is_open())
+        {
+            for (int i = 0; i < size; i++)
+            {
+                out.write((char*)&reservoirs[i], sizeof(reservoirs[i]));
+            }
+        }
+        else
+        {
+            cout << "Can't open data file to write!" << endl;
+        }
+        
+        out.close();
+    }
+    else
+    {
+        cout << "Can't open file to write!" << endl;
+    }
+    
+    file.close();
+ 
+}
+
+char* concatenate_string(char* string1, char* string2)
+{
+    int string_lenght1 = strlen(string1);
+    int string_lenght2 = strlen(string2);
+    int string_size = string_lenght1 + string_lenght2 + 1;
+    char* current_string = new char[string_size];
+    for (int i = 0; i < string_size - 1; i++)
+    {
+        if (i < string_lenght1)
+        {
+            current_string[i] = string1[i];
+        }
+        else
+        {
+            current_string[i] = string2[i - string_lenght1];
+        }
+    }
+    current_string[string_size - 1] = '\0';
+    return current_string;
+}
+
+char* int2sring(int number)
+{
+    int size = 10;
+    int counter = 10;
+    char* newString = new char[size];
+    int buf = 0;
+    char buffer = '\0';
+
+    if (number < 2147483648)
+    {
+        for (int i = 0; i < 10; ++i)
+        {
+            buf = number;
+            number %= 10;
+            newString[i] = char(number + 48);
+            number = (buf - number) / 10;
+        }
+
+        for (int j = 9; j >= 0; --j)
+        {
+            if ((int)newString[j] == 48)
+            {
+                --counter;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        for (int i = 0, j = counter - 1; i <= j; ++i, --j)
+        {
+            buffer = newString[i];
+            newString[i] = newString[j];
+            newString[j] = buffer;
+        }
+        newString[counter] = '\0';
+        return newString;
+    }
+    else
+    {
+        cout << "Wrong parametr!" << endl;
+        return nullptr;
+    }
+}
+
+void list(Reservoir* reservoirs, const int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        cout << i + 1 << ". ";
+        reservoirs[i].display();
+    }
+}
+
+Reservoir* editReservoir(Reservoir* reservoirs, const int size, const int index)
+{
+    reservoirs[index - 1] = CreateReservoir();
+    
+    return reservoirs;
+}
+
+Reservoir* deleteReservoir(Reservoir* reservoirs, const int size, const int index)
+{
+    
+    int counter = 0;
+    Reservoir* newReservoirs = new Reservoir[size - 1];
+
+    for (int i = 0; i < size; i++)
+    {
+        if (i != index - 1)
+        {
+            newReservoirs[counter] = reservoirs[i];
+            ++counter;
+        }
+    }
+
+    delete[] reservoirs;
+
+    return newReservoirs;
+}

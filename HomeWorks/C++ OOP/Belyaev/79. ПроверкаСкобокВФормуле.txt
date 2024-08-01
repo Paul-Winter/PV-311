@@ -1,0 +1,207 @@
+﻿//ЗАДАНИЕ 1.
+//Есть строка символов, признаком конца, которой является ;
+//В строке могут быть круглые, фигурные, квадратные скобки.
+//Скобки могут быть открывающими и закрывающими.
+//Необходимо проверить корректность расстановки скобок.
+//При этом необходимо, чтобы выполнились следующие правила:
+//1. Каждая открывающая скобка должна иметь справа такую же закрывающую.
+//Обратное также должно быть верно.
+//2. Открывающие и закрывающие пары скобок разных типов должны быть 
+//правильно расположены по отношению друг к другу.
+//■ Пример правильной строки : ({ x - y - z }*[x + 2y] - (z + 4x));
+//■ Пример неправильной строки : ([x - y - z}*[x + 2y) - {z + 4x)].
+//Если все правила соблюдены выведите информационное сообщение о корректности строки,
+//иначе покажите строку до места возникновения первой ошибки.
+
+#include <iostream>
+using namespace std;
+
+extern int error = 0;
+
+string cutSting(string text)
+{
+    int counter = 0;
+    int err_ind = 0;
+    char rb1 = '(';
+    char rb2 = ')';
+    int rb1_counter = 0;
+    int rb2_counter = 0;
+    char cb1 = '{';
+    char cb2 = '}';
+    int cb1_counter = 0;
+    int cb2_counter = 0;
+    char sb1 = '[';
+    char sb2 = ']';
+    int sb1_counter = 0;
+    int sb2_counter = 0;
+
+    for (int i = 0, j = 0; i <= text.length(); i++)
+    {
+        if (text[i] == rb2)
+        {
+            rb1_counter = i;
+            rb2_counter = i;
+            while (rb1_counter >= j)
+            {
+                if (text[rb1_counter] != rb1)
+                {
+                    if (text[rb1_counter] == cb1 || text[rb1_counter] == sb1)
+                    {
+                        error = rb1_counter;
+                        break;
+                    }
+                    else
+                    {
+                        --rb1_counter;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (rb1_counter >= j)
+            {
+                text.replace(rb1_counter, 1, " ");
+                text.replace(rb2_counter, 1, " ");
+                break;
+            }
+            else
+            {
+                error = i;
+            }
+        }
+
+        if (text[i] == cb2)
+        {
+            cb1_counter = i;
+            cb2_counter = i;
+            while (cb1_counter >= j)
+            {
+                if (text[cb1_counter] != cb1)
+                {
+                    if (text[cb1_counter] == rb1 || text[cb1_counter] == sb1)
+                    {
+                        error = cb1_counter;
+                        break;
+                    }
+                    else
+                    {
+                        --cb1_counter;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (cb1_counter >= j)
+            {
+                text.replace(cb1_counter, 1, " ");
+                text.replace(cb2_counter, 1, " ");
+                break;
+            }
+            else
+            {
+                error = i;
+            }
+        }
+
+        if (text[i] == sb2)
+        {
+            sb1_counter = i;
+            sb2_counter = i;
+            while (sb1_counter >= j)
+            {
+                if (text[sb1_counter] != sb1)
+                {
+                    if (text[sb1_counter] == cb1 || text[sb1_counter] == rb1)
+                    {
+                        error = sb1_counter;
+                        break;
+                    }
+                    else
+                    {
+                        --sb1_counter;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (sb1_counter >= j)
+            {
+                text.replace(sb1_counter, 1, " ");
+                text.replace(sb2_counter, 1, " ");
+                break;
+            }
+            else
+            {
+                error = i;
+            }
+        }
+
+    }
+    
+    for (int i = 0; i < text.length(); i++)
+    {
+        if (text[i] == rb1 || text[i] == rb2 || text[i] == cb1 || text[i] == cb2 || text[i] == sb1 || text[i] == sb2)
+        {
+            ++counter;
+            err_ind = i;
+        }
+    }
+    if (counter == 1 && error == 0)
+    {
+        error = err_ind;
+    }
+    
+    return text;
+}
+
+
+bool isRightString(string text)
+{
+    const string current_string = text;
+    string old_string = text;
+
+    while (text.length())
+    {
+        error = 0;
+        cout << "Pull " << text << endl;
+        old_string = text;
+        text = cutSting(text);
+        
+        if (old_string == text || error > 0)
+        {
+            if (error)
+            {
+                old_string = current_string;
+                cout << "Error index " << error << ", " << old_string.erase(error + 1, old_string.length()) << endl;
+                return false;
+            }
+            break;
+        }
+    }
+
+    cout << "String is right!" << endl;
+    return true;
+}
+
+int main()
+{
+    string text0 = "({x - y - z} * {x + 2y} - (z + 4x))";
+    string text1 = "({x - y - z} * {x + 2y - (z + 4x))";
+    string text2 = "({x - y - z}*[x + 2y) - {z + 4x)]";
+    string text3 = "8x + y(4 –(2x – y)) = 8x + y(4 – 2x + y) = 8x + 4y – {2xy + y";
+    string text4 = "(a + b) * (c - d) = a * (c - d) + b * (c - d) = ac – ad + [bc - bd}";
+
+    isRightString(text0);
+    isRightString(text1);
+    isRightString(text2);
+    isRightString(text3);
+    isRightString(text4);
+
+    return 0;
+}

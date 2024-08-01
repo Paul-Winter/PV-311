@@ -1,0 +1,668 @@
+﻿*************************************main.cpp**********************************
+//ЗАДАНИЕ 1.
+//В рамках предыдущих самостоятельных и домашних заданий
+//вы создали набор классов по работе с различными
+//примитивными математическими операциями (дробь,
+//точка в двумерном пространстве, точка в трехмерном
+//пространстве и т.д.). Разместите уже созданные классы
+//в пространствах имён. Придумайте правильную структуру
+//созданных пространств. Используя механизм пространств
+//напишите код по тестированию полученного решения.
+
+#include <iostream>
+#include "spaces.h"
+using namespace std;
+using namespace MyMath;
+using namespace MyString;
+
+int main()
+{
+    //MyMath::
+    Fraction fract1{ 1,2 };
+    Fraction fract2{ 1,3 };
+
+    cout << "FRACTION: " << fract1.numerator << "/" << fract1.denominator << " and " << fract2.numerator << "/" << fract2.denominator << endl;
+
+    Fraction fract3 = fract1 + fract2;
+    cout << "Result of addition: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1 - fract2;
+    cout << "Result of subtract: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1 * fract2;
+    cout << "Result of multiplycation: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1 / fract2;
+    cout << "Result of division: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    Complex compl1{ 2,5 };
+    Complex compl2{ 1,7 };
+
+    cout << "\nCOMPLEX: ";
+    compl1.display();
+    cout << " and ";
+    compl2.display();
+    cout << endl;
+
+    Complex compl3 = compl1 + compl2;
+    cout << "Result of addition: ";
+    compl3.display();
+    cout << endl;
+
+    compl3 = compl1 - compl2;
+    cout << "Result of subtract: ";
+    compl3.display();
+    cout << endl;
+
+    compl3 = compl1 * compl2;
+    cout << "Result of multiplycation: ";
+    compl3.display();
+    cout << endl;
+
+    compl3 = compl1 / compl2;
+    cout << "Result of division: ";
+    compl3.display();
+    cout << endl;
+
+    //MyString::
+    bool equally = false;
+
+    String string1("Hello world!");
+    String string2("Hello");
+    String string3("New word");
+
+    equally = string1 != string3;
+    cout << "string1 != string3 = " << equally << endl;
+
+    string3 = string1 + string2;
+    string3.showString();
+
+    string2 += string1;
+    string2.showString();
+
+    equally = string2 == string3;
+    cout << "string2 == string3 = " << equally << endl;
+
+
+    Bitstring bstring1("01100101");
+    bstring1.showString();
+
+    Bitstring bstring2("10010001");
+    bstring2.showString();
+
+    Bitstring bstring3 = bstring1 + bstring2;
+    bstring3.showString();
+
+    bstring1 = bstring2;
+    bstring1.showString();
+
+    bstring1 += bstring3;
+    bstring1.showString();
+
+    equally = bstring1 != bstring3;
+    cout << "bitstring1 != bitstring3 = " << equally << endl;
+
+    equally = bstring1 == bstring3;
+    cout << "bitstring1 == bitstring3 = " << equally << endl;
+
+    Bitstring bstring4("01101101");
+    bstring4.negative();
+
+    return 0;
+}
+*************************************spaces.h**********************************
+#pragma once
+#include <iostream>
+#include <bitset>
+using namespace std;
+
+namespace MyMath
+{
+	class Fraction
+	{
+	public:
+
+		int numerator;
+		int denominator;
+
+		Fraction() : Fraction{ 1, 1 }
+		{
+
+		}
+
+		Fraction(const int numerator, const int denominator) : numerator{ numerator }, denominator{ denominator }
+		{
+
+		}
+
+		friend const Fraction operator+(const Fraction& fraction1, const Fraction& fraction2)
+		{
+			Fraction newFraction;
+			newFraction.numerator = fraction1.numerator * fraction2.denominator + fraction2.numerator * fraction1.denominator;
+			newFraction.denominator = fraction1.denominator * fraction2.denominator;
+			newFraction.reduce(newFraction);
+			return newFraction;
+		}
+
+		friend const Fraction operator-(const Fraction& fraction1, const Fraction& fraction2)
+		{
+			Fraction newFraction;
+			newFraction.numerator = fraction1.numerator * fraction2.denominator - fraction2.numerator * fraction1.denominator;
+			newFraction.denominator = fraction1.denominator * fraction2.denominator;
+			newFraction.reduce(newFraction);
+			return newFraction;
+		}
+
+		friend const Fraction operator*(const Fraction& fraction1, const Fraction& fraction2)
+		{
+			Fraction newFraction;
+			newFraction.numerator = fraction1.numerator * fraction2.numerator;
+			newFraction.denominator = fraction1.denominator * fraction2.denominator;
+			newFraction.reduce(newFraction);
+			return newFraction;
+		}
+
+		friend const Fraction operator/(const Fraction& fraction1, const Fraction& fraction2)
+		{
+			Fraction newFraction;
+			newFraction.numerator = fraction1.numerator * fraction2.denominator;
+			newFraction.denominator = fraction1.denominator * fraction2.numerator;
+			newFraction.reduce(newFraction);
+			return newFraction;
+		}
+
+		void setNumerator()
+		{
+			int N = 0;
+			cout << "Enter value of numerator:";
+			cin >> N;
+			this->numerator = N;
+		}
+	
+		void setDenomerator()
+		{
+			int N = 0;
+			cout << "Enter value of denomerator:";
+			cin >> N;
+			this->denominator = N;
+		}
+
+		Fraction reduce(Fraction f)
+		{
+			int N = f.numerator;
+			int D = f.denominator;
+			auto g = GCD(N < 0 ? -N : N, D);
+			f.numerator = f.numerator / g;
+			f.denominator = f.denominator / g;
+			return f;
+		}
+
+		int GCD(int a, int b)
+		{
+			while (a)
+			{
+				auto t = b % a;
+				b = a;
+				a = t;
+			}
+			return b;
+		}
+
+		Fraction addition(Fraction f)
+		{
+			Fraction newFraction;
+			newFraction.numerator = numerator * f.denominator + f.numerator * denominator;
+			newFraction.denominator = denominator * f.denominator;
+			newFraction = reduce(newFraction);
+			return newFraction;
+		}
+
+		Fraction subtract(Fraction f)
+		{
+			Fraction newFraction;
+			newFraction.numerator = numerator * f.denominator - f.numerator * denominator;
+			newFraction.denominator = denominator * f.denominator;
+			newFraction = reduce(newFraction);
+			return newFraction;
+		}
+
+		Fraction multiplycation(Fraction f)
+		{
+			Fraction newFraction;
+			newFraction.numerator = numerator * f.numerator;
+			newFraction.denominator = denominator * f.denominator;
+			newFraction = reduce(newFraction);
+			return newFraction;
+		}
+
+		Fraction division(Fraction f)
+		{
+			Fraction newFraction;
+			newFraction.numerator = numerator * f.denominator;
+			newFraction.denominator = denominator * f.numerator;
+			newFraction = reduce(newFraction);
+			return newFraction;
+		}
+	};
+
+	class Complex
+	{
+	public:
+
+		double Re;
+		double Im;
+
+		Complex() : Complex{ 0, 0 }
+		{
+
+		}
+
+		Complex(const double Re, const double Im) : Re{ Re }, Im{ Im }
+		{
+
+		}
+
+		friend const Complex operator+(const Complex& complex1, const Complex& complex2)
+		{
+			Complex newComplex;
+			newComplex.Re = complex1.Re + complex2.Re;
+			newComplex.Im = complex1.Im + complex2.Im;
+			return newComplex;
+		}
+
+
+		friend const Complex operator-(const Complex& complex1, const Complex& complex2)
+		{
+			Complex newComplex;
+			newComplex.Re = complex1.Re - complex2.Re;
+			newComplex.Im = complex1.Im - complex2.Im;
+			return newComplex;
+		}
+
+		friend const Complex operator*(const Complex& complex1, const Complex& complex2)
+		{
+			Complex newComplex;
+			newComplex.Re = complex1.Re * complex2.Re - complex1.Im * complex2.Im;
+			newComplex.Im = complex1.Im * complex2.Re + complex1.Re * complex2.Im;
+			return newComplex;
+		}
+
+		friend const Complex operator/(const Complex& complex1, const Complex& complex2)
+		{
+			Complex newComplex;
+			newComplex.Re = (complex1.Re * complex2.Re + complex1.Im * complex2.Im) / (complex2.Re * complex2.Re + complex2.Im * complex2.Im);
+			newComplex.Im = (complex1.Im * complex2.Re - complex1.Re * complex2.Im) / (complex2.Re * complex2.Re + complex2.Im * complex2.Im);
+			return newComplex;
+		}
+
+		void display()
+		{
+			cout << this->Re;
+			if (this->Im >= 0)
+				cout << "+" << this->Im << "i";
+			else
+				cout << this->Im << "i";
+		}
+	};
+}
+
+namespace MyString
+{
+	class String
+	{
+	public:
+
+		char* array = nullptr;
+		int size = 0;
+
+		String()
+		{
+			this->size = 1;
+			this->array = new char[this->size];
+			this->array[0] = '\0';
+			cout << "Creating String(), size=" << this->size << ", string=" << this->array << endl;
+		}
+
+		String(const int size) : size{ size }
+		{
+			this->array = new char[this->size];
+			cout << "Creating String(size), size=" << this->size << ", string=" << this->array << endl;
+		}
+
+		String(const char* const str) : size{ sizeString(str) }
+		{
+			this->array = new char[this->size];
+			strcpy_s(array, this->size, str);
+			cout << "Creating String(c-string), size=" << this->size << ", string=" << this->array << endl;
+		}
+
+		String(const String& str) : size{ str.size }
+		{
+			this->array = new char[this->size];
+			strcpy_s(array, this->size, str.array);
+			cout << "Creating String(copy), size=" << this->size << ", string=" << this->array << endl;
+		}
+
+		int sizeString(const char* const str)
+		{
+			return strlen(str) + 1;
+		}
+
+		void showString() const
+		{
+			if (this->array)
+			{
+				cout << ">" << this->array << endl;
+			}
+		}
+
+		void inputString()
+		{
+			cout << "Enter new string: ";
+			cin.getline(this->array, 2048);
+		}
+
+		void clear()
+		{
+			this->size = 0;
+			delete[]this->array;
+			this->array = nullptr;
+		}
+
+		String operator=(const String& str)
+		{
+			this->size = strlen(str.array) + 1;
+			char* mass = new char[this->size];
+			for (int i = 0; i < this->size; i++)
+			{
+				mass[i] = str.array[i];
+			}
+
+			this->array = mass;
+
+			return *this;
+		}
+
+		String operator+(const String& str)
+		{
+			int count = 0;
+
+			char* mass = new char[(strlen(this->array) + strlen(str.array))];
+			for (int i = 0; i < strlen(this->array); i++)
+			{
+				mass[count] = this->array[i];
+				++count;
+			}
+			for (int j = 0; j < strlen(str.array); j++)
+			{
+				mass[count] = str.array[j];
+				++count;
+			}
+
+			mass[count] = '\0';
+
+			return String(mass);
+		}
+
+		void operator+=(const String& str)
+		{
+			int count = 0;
+
+			char* mass = new char[(strlen(this->array) + strlen(str.array)) + 1];
+			for (int i = 0; i < strlen(this->array); i++)
+			{
+				mass[count] = this->array[i];
+				++count;
+			}
+			for (int j = 0; j < strlen(str.array); j++)
+			{
+				mass[count] = str.array[j];
+				++count;
+			}
+
+			mass[count] = '\0';
+
+			this->size = (strlen(this->array) + strlen(str.array)) + 1;
+			this->array = mass;
+
+		}
+
+		bool operator==(const String& str)
+		{
+			if (strlen(this->array) == strlen(str.array))
+			{
+				for (int i = 0; i < strlen(str.array); i++)
+				{
+					if (this->array[i] != str.array[i])
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+
+			return false;
+		}
+
+		bool operator!=(const String& str)
+		{
+			if (strlen(this->array) == strlen(str.array))
+			{
+				for (int i = 0; i < strlen(str.array); i++)
+				{
+					if (this->array[i] != str.array[i])
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+
+			return true;
+		}
+
+		~String()
+		{
+			if (this->array != nullptr && this->size > 0)
+			{
+				cout << "Deleting String, size=" << this->size << ", string=" << this->array << "... ";
+				delete[] this->array;
+				cout << "Done." << endl;
+			}
+		}
+	};
+
+	class Bitstring : public String
+	{
+	private:
+
+		bool sign = true;
+
+	public:
+
+		bool isBit(const char* str)
+		{
+			for (int i = 0; i < strlen(str); i++)
+			{
+				if (str[i] != '1' && str[i] != '0')
+				{
+					cout << "Wrong bit value!" << endl;
+					return false;
+				}
+			}
+			return true;
+		}
+
+		Bitstring()
+		{
+			this->size = 0;
+			this->array = nullptr;
+			cout << "Creating Bitstring(), size=" << this->size << ", string=" << this->array << endl;
+		}
+
+		Bitstring(const char* str) : String(str)
+		{
+			this->size = strlen(str) + 1;
+
+			if (isBit(str))
+			{
+				this->array = new char[this->size];
+				strcpy_s(this->array, this->size, str);
+			}
+			else
+			{
+				this->size = 0;
+				this->array = nullptr;
+			}
+			cout << "Creating Bitstring(c-string), size=" << this->size << ", string=" << this->array << endl;
+		}
+
+		Bitstring(const Bitstring& str)
+		{
+			this->size = strlen(str.array) + 1;
+			this->array = new char[this->size];
+			strcpy_s(array, this->size, str.array);
+			cout << "Creating Bitstring(copy), size=" << this->size << ", string=" << this->array << endl;
+		}
+
+		~Bitstring()
+		{
+			if (this->array != nullptr)
+			{
+				cout << "Deleting Bitstring, size=" << this->size << ", string=" << this->array << "... ";
+				delete[] this->array;
+				this->size = 0;
+				cout << "Done." << endl;
+			}
+		}
+
+		Bitstring operator=(const Bitstring& str)
+		{
+			this->size = strlen(str.array) + 1;
+			char* mass = new char[size];
+			for (int i = 0; i < this->size; i++)
+			{
+				mass[i] = str.array[i];
+			}
+			this->array = mass;
+
+			return *this;
+		}
+
+		Bitstring operator+(const Bitstring& str)
+		{
+			const int maxLenght = 8;
+
+			int n1 = str2int(this->array);
+			int n2 = str2int(str.array);
+			int n3 = n1 + n2;
+			string bit_str = bitset<maxLenght>(n3).to_string();
+
+			char* mass = new char[maxLenght + 1];
+			for (int i = 0; i < maxLenght; i++)
+			{
+				mass[i] = bit_str[i];
+			}
+
+			mass[maxLenght] = '\0';
+
+			return Bitstring(mass);
+		}
+
+		void operator+=(const Bitstring& str)
+		{
+			const int maxLenght = 8;
+
+			int n1 = str2int(this->array);
+			int n2 = str2int(str.array);
+			int n3 = n1 + n2;
+			string bit_str = bitset<maxLenght>(n3).to_string();
+
+			char* mass = new char[maxLenght + 1];
+			for (int i = 0; i < maxLenght; i++)
+			{
+				mass[i] = bit_str[i];
+			}
+
+			mass[maxLenght] = '\0';
+
+			this->size = maxLenght;
+			this->array = mass;
+
+		}
+
+		bool operator==(const Bitstring& str)
+		{
+			if (strlen(this->array) == strlen(str.array))
+			{
+				for (int i = 0; i < strlen(str.array); i++)
+				{
+					if (this->array[i] != str.array[i])
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+
+			return false;
+		}
+
+		bool operator!=(const Bitstring& str)
+		{
+			if (strlen(this->array) == strlen(str.array))
+			{
+				for (int i = 0; i < strlen(str.array); i++)
+				{
+					if (this->array[i] != str.array[i])
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+
+			return true;
+		}
+
+		int str2int(char* str)
+		{
+			int rezult = 0;
+			while (*str)
+			{
+				rezult = rezult * 2 + (*str++ - '0');
+			}
+
+			return rezult;
+		}
+
+		void negative()
+		{
+			int number = str2int(this->array);
+
+			cout << "Bin = " << this->array << " is " << number << " decimal." << endl;
+
+			if (this->array[0] == '1')
+			{
+				int new_size = this->size + 1;
+
+				char* mass = new char[new_size];
+				mass[0] = '1';
+				for (int i = 1; i < new_size; i++)
+				{
+					mass[i] = this->array[i - 1];
+				}
+
+				this->size = new_size;
+				this->array = mass;
+
+				cout << "Bin = " << this->array << " is -" << number << " decimal." << endl;
+			}
+			else
+			{
+				this->array[0] = '1';
+				cout << "Bin = " << this->array << " is -" << number << " decimal." << endl;
+			}
+		}
+	};
+}

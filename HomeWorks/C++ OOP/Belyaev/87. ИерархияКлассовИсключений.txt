@@ -1,0 +1,101 @@
+﻿************************************main.cpp**********************************
+//ЗАДАНИЕ 2.
+//Создайте иерархию пользовательских классов - исключений. 
+//В ней должны быть классы для разных ситуаций. 
+//В качестве предметной области используйте ваши практические и домашние задания.
+//Например, должны присутствовать классы для обработки всевозможных 
+//математических ошибок, нехватки памяти, проблемам по работе с файлами и т.д
+
+#include <iostream>
+#include <fstream>
+#include "MyException.h"
+#include <exception>
+
+int main()
+{
+	int a = 8;
+	int b = 0;
+	cout << a << "/" << b << "= ";
+	if (b == 0)
+	{
+		MyException Code1(MyException::ErrorCode::ERROR_DEVIDE_BY_ZERO, "Warning! Divide by zero. Error code is:");
+		cout << Code1.what() << endl;
+	}
+	else
+	{
+		cout << a/b << endl;
+	}
+
+	const int size = 6;
+	int ms[size];
+	for (int i = 0; i < 7; i++)
+	{
+		if (i > 5)
+		{
+			MyException Code2(MyException::ErrorCode::ERROR_OUT_OF_RANGE, "Warning! Index out of range. Error code is:");
+			cout << Code2.what() << endl;
+		}
+		else
+		{
+			ms[i] = i;
+			cout << ms[i] << " ";
+		}
+	}
+		
+	char path[128]{ "C:\\text.txt" };
+	cout << path << " ";
+	ifstream file;
+	file.open(path);
+	if (!file.is_open())
+	{
+		MyException Code3(MyException::ErrorCode::ERROR_FILE_IS_ABSENT, "Warning! Can't find this file. Error code is:");
+		cout << Code3.what() << endl;
+	}
+
+    return 0;
+}
+******************************MyException.h******************************
+#pragma once
+#include <iostream>
+#include <string>
+using namespace std;
+
+class MyException : public std::exception
+{
+public:
+
+	enum ErrorCode
+	{
+		ERROR_DEVIDE_BY_ZERO = 1,
+		ERROR_OUT_OF_RANGE = 2,
+		ERROR_FILE_IS_ABSENT = 3
+	};
+
+	MyException(ErrorCode errorCode, const char* const str) : m_errorCode{ errorCode }, m_what{ str }
+	{
+		this->m_what.append(" ");
+		this->m_what.append(to_string(m_errorCode));
+	}
+	MyException() = delete;
+
+	const char* what() const throw()
+	{
+		switch (m_errorCode)
+		{
+		case ERROR_DEVIDE_BY_ZERO:
+			return this->m_what.c_str();
+			break;
+		case ERROR_OUT_OF_RANGE:
+			return this->m_what.c_str();
+			break;
+		case ERROR_FILE_IS_ABSENT:
+			return this->m_what.c_str();
+			break;
+		}
+	}
+
+private:
+	
+	ErrorCode m_errorCode;
+	string m_what;
+};

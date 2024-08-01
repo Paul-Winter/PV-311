@@ -1,0 +1,300 @@
+﻿***********************************************main.cpp**************************************
+//ЗАДАНИЕ 1
+//Создайте класс Дробь (или используйте уже ранее созданный вами).
+//Используя перегрузку операторов реализуйте для него арифметические
+//операции для работы с дробями (операции + , -, *, / ).
+//
+//ЗАДАНИЕ 2
+//Создайте класс Complex(комплексное число) или используйте уже созданный
+//вами класс. Создайте перегруженные операторы для реализации арифметических
+//операций по работе с комплексными числами (операции + , -, *, / ).
+
+#include <iostream>
+#include "fraction.h"
+#include "complex.h"
+
+int main()
+{
+    Fraction fract1{ 1,2 };
+    Fraction fract2{ 1,3 };
+    
+    cout << "FRACTION: " << fract1.numerator << "/" << fract1.denominator << " and " << fract2.numerator << "/" << fract2.denominator << endl;
+
+    Fraction fract3 = fract1 + fract2;
+    cout << "Result of addition: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1 - fract2;
+    cout << "Result of subtract: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1 * fract2;
+    cout << "Result of multiplycation: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1 / fract2;
+    cout << "Result of division: " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    Complex compl1{ 2,5 };
+    Complex compl2{ 1,7 };
+
+    cout << "\nCOMPLEX: ";
+    compl1.display();
+    cout << " and ";
+    compl2.display();
+    cout << endl;
+
+    Complex compl3 = compl1 + compl2;
+    cout << "Result of addition: ";
+    compl3.display();
+    cout << endl;
+
+    compl3 = compl1 - compl2;
+    cout << "Result of subtract: ";
+    compl3.display();
+    cout << endl;
+
+    compl3 = compl1 * compl2;
+    cout << "Result of multiplycation: ";
+    compl3.display();
+    cout << endl;
+
+    compl3 = compl1 / compl2;
+    cout << "Result of division: ";
+    compl3.display();
+    cout << endl;
+
+    return 0;
+}
+*******************************************fraction.h***************************************
+#pragma once
+using namespace std;
+
+class Fraction
+{
+public:
+
+	int numerator;
+
+	int denominator;
+	
+	Fraction();
+
+	Fraction(const int numerator, const int denominator);
+
+	friend const Fraction operator+(const Fraction& fraction1, const Fraction& fraction2);
+
+	friend const Fraction operator-(const Fraction& fraction1, const Fraction& fraction2);
+
+	friend const Fraction operator*(const Fraction& fraction1, const Fraction& fraction2);
+
+	friend const Fraction operator/(const Fraction& fraction1, const Fraction& fraction2);
+	
+	void setNumerator();
+	void setDenomerator();
+	Fraction reduce(Fraction f);
+	int GCD(int a, int b);
+	Fraction addition(Fraction f);
+	Fraction subtract(Fraction f);
+	Fraction multiplycation(Fraction f);
+	Fraction division(Fraction f);
+	
+};
+*************************************************fraction.cpp***********************************
+#include <iostream>
+#include "fraction.h"
+
+Fraction::Fraction() : Fraction{ 1, 1 }
+{
+
+}
+
+Fraction::Fraction(const int numerator, const int denominator) : numerator{ numerator }, denominator{ denominator }
+{
+
+}
+
+Fraction const operator+(const Fraction& fraction1, const Fraction& fraction2)
+{
+	Fraction newFraction;
+	newFraction.numerator = fraction1.numerator * fraction2.denominator + fraction2.numerator * fraction1.denominator;
+	newFraction.denominator = fraction1.denominator * fraction2.denominator;
+	newFraction.reduce(newFraction);
+	return newFraction;
+}
+
+const Fraction operator-(const Fraction& fraction1, const Fraction& fraction2)
+{
+	Fraction newFraction;
+	newFraction.numerator = fraction1.numerator * fraction2.denominator - fraction2.numerator * fraction1.denominator;
+	newFraction.denominator = fraction1.denominator * fraction2.denominator;
+	newFraction.reduce(newFraction);
+	return newFraction;
+}
+
+const Fraction operator*(const Fraction& fraction1, const Fraction& fraction2)
+{
+	Fraction newFraction;
+	newFraction.numerator = fraction1.numerator * fraction2.numerator;
+	newFraction.denominator = fraction1.denominator * fraction2.denominator;
+	newFraction.reduce(newFraction);
+	return newFraction;
+}
+
+const Fraction operator/(const Fraction& fraction1, const Fraction& fraction2)
+{
+	Fraction newFraction;
+	newFraction.numerator = fraction1.numerator * fraction2.denominator;
+	newFraction.denominator = fraction1.denominator * fraction2.numerator;
+	newFraction.reduce(newFraction);
+	return newFraction;
+}
+
+void Fraction::setNumerator()
+{
+	int N = 0;
+	cout << "Enter value of numerator:";
+	cin >> N;
+	this->numerator = N;
+}
+
+void Fraction::setDenomerator()
+{
+	int N = 0;
+	cout << "Enter value of denomerator:";
+	cin >> N;
+	this->denominator = N;
+}
+
+Fraction Fraction::reduce(Fraction f)
+{
+	int N = f.numerator;
+	int D = f.denominator;
+	auto g = GCD(N < 0 ? - N : N, D);
+	f.numerator = f.numerator / g;
+	f.denominator = f.denominator / g;
+	return f;
+}
+
+int Fraction::GCD(int a, int b)
+{
+	while (a)
+	{
+		auto t = b % a;
+		b = a;
+		a = t;
+	}
+	return b;
+}
+
+Fraction Fraction::addition(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.denominator + f.numerator * denominator;
+	newFraction.denominator = denominator * f.denominator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+
+Fraction Fraction::subtract(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.denominator - f.numerator * denominator;
+	newFraction.denominator = denominator * f.denominator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+
+Fraction Fraction::multiplycation(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.numerator;
+	newFraction.denominator = denominator * f.denominator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+
+Fraction Fraction::division(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.denominator;
+	newFraction.denominator = denominator * f.numerator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+************************************************complex.h************************************
+#pragma once
+using namespace std;
+
+class Complex
+{
+public:
+	
+	double Re;
+	double Im;
+
+	Complex();
+
+	Complex(const double Re, const double Im);
+
+	friend const Complex operator+(const Complex& complex1, const Complex& complex2);
+
+	friend const Complex operator-(const Complex& complex1, const Complex& complex2);
+
+	friend const Complex operator*(const Complex& complex1, const Complex& complex2);
+
+	friend const Complex operator/(const Complex& complex1, const Complex& complex2);
+
+	void display();
+};
+*************************************************complex.cpp************************************
+#include <iostream>
+#include "complex.h"
+
+Complex::Complex() : Complex { 0, 0 }
+{
+
+}
+
+Complex::Complex(const double Re, const double Im) : Re { Re }, Im{ Im }
+{
+
+}
+
+void Complex::display()
+{
+	cout << this->Re;
+	if (this->Im >= 0)
+		cout << "+" << this->Im << "i";
+	else
+		cout << this->Im << "i";
+}
+
+const Complex operator+(const Complex& complex1, const Complex& complex2)
+{
+	Complex newComplex;
+	newComplex.Re = complex1.Re + complex2.Re;
+	newComplex.Im = complex1.Im + complex2.Im;
+	return newComplex;
+}
+
+const Complex operator-(const Complex& complex1, const Complex& complex2)
+{
+	Complex newComplex;
+	newComplex.Re = complex1.Re - complex2.Re;
+	newComplex.Im = complex1.Im - complex2.Im;
+	return newComplex;
+}
+
+const Complex operator*(const Complex& complex1, const Complex& complex2)
+{
+	Complex newComplex;
+	newComplex.Re = complex1.Re * complex2.Re - complex1.Im * complex2.Im;
+	newComplex.Im = complex1.Im * complex2.Re + complex1.Re * complex2.Im;
+	return newComplex;
+}
+
+const Complex operator/(const Complex& complex1, const Complex& complex2)
+{
+	Complex newComplex;
+	newComplex.Re = (complex1.Re * complex2.Re + complex1.Im * complex2.Im) / (complex2.Re * complex2.Re + complex2.Im * complex2.Im);
+	newComplex.Im = (complex1.Im * complex2.Re - complex1.Re * complex2.Im) / (complex2.Re * complex2.Re + complex2.Im * complex2.Im);
+	return newComplex;
+}

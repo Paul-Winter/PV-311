@@ -1,0 +1,496 @@
+﻿****************************************main.cpp********************************
+//ЗАДАНИЕ 2.
+//Описать базовый класс «Строка».
+//Методы:
+//1) конструктор без параметров;
+//2) конструктор, принимающий в качестве параметра C-строку (заканчивается нулевым байтом);
+//3) конструктор копирования;
+//4) оператор присваивания;
+//5) получение длины строки;
+//6) очистка строки (сделать строку пустой);
+//7) деструктор;
+//8) конкатенация строк (перегрузить операторы + и += );
+//9) проверка на равенство ( == ) и на неравенство( != ).
+//Описать класс «Битовая строка» производный от класса «Строка» (Строки данного класса могут
+//содержать только символы ‘0’ и ‘1’). Если в основе инициализирующей строки встретятся 
+//любые символы, отличные от допустимых, то «Битовая строка» становится пустой. 
+//Содержимое строки рассматривается как двоичное представление целого числа
+//со знаковым разрядом. Отрицательные числа хранятся в дополнительном коде.
+//Методы:
+//1) конструктор без параметров;
+//2) конструктор, принимающий в качестве параметра C-строку;
+//3) конструктор копирования;
+//4) оператор присваивания;
+//5) деструктор;
+//6) изменение знака числа (перевод числа в дополнительный код).
+//7) сложение битовых строк (перегрузить операторы + и +=);
+//8) проверка на равенство( == ) и на неравенство( != ).
+
+#include <iostream>
+#include "string.h"
+#include "bitstring.h"
+
+using namespace std;
+
+int main()
+{
+    bool equally = false;
+    
+    String string1("Hello world!");
+    String string2("Hello");
+    String string3("New word");
+    
+    equally = string1 != string3;
+    cout << "string1 != string3 = " << equally << endl;
+
+    string3 = string1 + string2;
+    string3.showString();
+
+    string2 += string1;
+    string2.showString();
+
+    equally = string2 == string3;
+    cout << "string2 == string3 = " << equally << endl;
+
+
+    Bitstring bstring1("01100101");
+    bstring1.showString();
+    
+    Bitstring bstring2("10010001");
+    bstring2.showString();
+
+    Bitstring bstring3 = bstring1 + bstring2;
+    bstring3.showString();
+
+    bstring1 = bstring2;
+    bstring1.showString();
+    
+    bstring1 += bstring3;
+    bstring1.showString();
+
+    equally = bstring1 != bstring3;
+    cout << "bitstring1 != bitstring3 = " << equally << endl;
+
+    equally = bstring1 == bstring3;
+    cout << "bitstring1 == bitstring3 = " << equally << endl;
+
+    Bitstring bstring4("01101101");
+    bstring4.negative();
+    
+    return 0;
+}
+**************************************string.h********************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class String
+{
+public:
+	
+	char* array = nullptr;
+	int size = 0;
+	static int counter;
+	
+	String();
+	String(const int size);
+	String(const char* const str);
+	String(const String& str);
+	static int sizeString(const char* const str);
+	void showString() const;
+	void inputString();
+	void clear();
+	static int CountStr();
+	String operator=(const String& str);
+	String operator+(const String& str);
+	void operator+=(const String& str);
+	bool operator==(const String& str);
+	bool operator!=(const String& str);
+	~String();
+};
+************************************string.cpp***********************************
+#include "string.h"
+
+String::String()
+{
+	this->size = 1;
+	this->array = new char[this->size];
+	this->array[0] = '\0';
+	++counter;
+	cout << "Creating String(), size=" << this->size << ", string=" << this->array << endl;
+}
+
+String::String(const int size) : size{ size }
+{
+	this->array = new char[this->size];
+	++counter;
+	cout << "Creating String(size), size=" << this->size << ", string=" << this->array << endl;
+}
+
+String::String(const char* const str) : size{ sizeString(str) }
+{
+	this->array = new char[this->size];
+	strcpy_s(array, this->size, str);
+	++counter;
+	cout << "Creating String(c-string), size=" << this->size << ", string=" << this->array << endl;
+}
+
+String::String(const String& str) : size{ str.size }
+{
+	this->array = new char[this->size];
+	strcpy_s(array, this->size, str.array);
+	++counter;
+	cout << "Creating String(copy), size=" << this->size << ", string=" << this->array << endl;
+}
+
+int String::sizeString(const char* const str)
+{
+	return strlen(str) + 1;
+}
+
+void String::showString() const
+{
+	if (this->array)
+	{
+		cout << ">" << this->array << endl;
+	}
+}
+
+void String::inputString()
+{
+	cout << "Enter new string: ";
+	cin.getline(this->array, 2048);
+}
+
+void String::clear()
+{
+	this->size = 0;
+	delete[]this->array;
+	this->array = nullptr;
+}
+
+int String::CountStr()
+{
+	return counter;
+}
+
+String String::operator=(const String& str)
+{
+	this->size = strlen(str.array) + 1;
+	char* mass = new char[this->size];
+	for (int i = 0; i < this->size; i++)
+	{
+		mass[i] = str.array[i];
+	}
+
+	this->array = mass;
+
+	return *this;
+}
+
+String String::operator+(const String& str)
+{
+	int count = 0;
+
+	char* mass = new char[(strlen(this->array) + strlen(str.array))];
+	for (int i = 0; i < strlen(this->array); i++)
+	{
+		mass[count] = this->array[i];
+		++count;
+	}
+	for (int j = 0; j < strlen(str.array); j++)
+	{
+		mass[count] = str.array[j];
+		++count;
+	}
+	
+	mass[count] = '\0';
+	
+	return String(mass);
+}
+
+void String::operator+=(const String& str)
+{
+	int count = 0;
+
+	char* mass = new char[(strlen(this->array) + strlen(str.array)) + 1];
+	for (int i = 0; i < strlen(this->array); i++)
+	{
+		mass[count] = this->array[i];
+		++count;
+	}
+	for (int j = 0; j < strlen(str.array); j++)
+	{
+		mass[count] = str.array[j];
+		++count;
+	}
+
+	mass[count] = '\0';
+
+	this->size = (strlen(this->array) + strlen(str.array)) + 1;
+	this->array = mass;
+
+}
+
+bool String::operator==(const String& str)
+{
+	if (strlen(this->array) == strlen(str.array))
+	{
+		for (int i = 0; i < strlen(str.array); i++)
+		{
+			if (this->array[i] != str.array[i])
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	return false;
+}
+
+bool String::operator!=(const String& str)
+{
+	if (strlen(this->array) == strlen(str.array))
+	{
+		for (int i = 0; i < strlen(str.array); i++)
+		{
+			if (this->array[i] != str.array[i])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	return true;
+}
+
+String::~String()
+{
+	if (this->array != nullptr && this->size > 0)
+	{
+		cout << "Deleting String, size=" << this->size << ", string=" << this->array << "... ";
+		delete[] this->array;
+		cout << "Done." << endl;
+	}
+}
+
+int String::counter = 0;
+**************************************bitstring.h******************************
+#pragma once
+#include "string.h"
+using namespace std;
+
+class Bitstring : public String
+{
+private:
+
+	bool sign = true;
+
+public:
+
+	bool isBit(const char* str);
+	Bitstring();
+	Bitstring(const char* srt);
+	Bitstring(const Bitstring& str);
+	~Bitstring();
+	
+	Bitstring operator=(const Bitstring& str);
+	Bitstring operator+(const Bitstring& str);
+	void operator+=(const Bitstring& str);
+	bool operator==(const Bitstring& str);
+	bool operator!=(const Bitstring& str);
+	int str2int(char* str);
+	void negative();
+	
+};
+************************************bitstring.cpp******************************
+#include "bitstring.h"
+#include <bitset>
+
+bool Bitstring::isBit(const char* str)
+{
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (str[i] != '1' && str[i] != '0')
+		{
+			cout << "Wrong bit value!" << endl;
+			return false;
+		}
+	}
+    return true;
+}
+
+Bitstring::Bitstring()
+{
+	this->size = 0;
+	this->array = nullptr;
+	cout << "Creating Bitstring(), size=" << this->size << ", string=" << this->array << endl;
+}
+
+Bitstring::Bitstring(const char* str) : String(str)
+{
+	this->size = strlen(str) + 1;
+	
+	if (isBit(str))
+	{
+		this->array = new char[this->size];
+		strcpy_s(this->array, this->size, str);
+	}
+	else
+	{
+		this->size = 0;
+		this->array = nullptr;
+	}
+	cout << "Creating Bitstring(c-string), size=" << this->size << ", string=" << this->array << endl;
+}
+
+Bitstring::Bitstring(const Bitstring& str)
+{
+	this->size = strlen(str.array) + 1;
+	this->array = new char[this->size];
+	strcpy_s(array, this->size, str.array);
+	cout << "Creating Bitstring(copy), size=" << this->size << ", string=" << this->array << endl;
+}
+
+Bitstring::~Bitstring()
+{
+	if (this->array != nullptr)
+	{
+		cout << "Deleting Bitstring, size=" << this->size << ", string=" << this->array << "... ";
+		delete[] this->array;
+		this->size = 0;
+		cout << "Done." << endl;
+	}
+}
+
+Bitstring Bitstring::operator=(const Bitstring& str)
+{
+	this->size = strlen(str.array) + 1;
+	char* mass = new char[size];
+	for (int i = 0; i < this->size; i++)
+	{
+		mass[i] = str.array[i];
+	}
+	this->array = mass;
+
+	return *this;
+}
+
+Bitstring Bitstring::operator+(const Bitstring& str)
+{
+	const int maxLenght = 8;
+	
+	int n1 = str2int(this->array);
+	int n2 = str2int(str.array);
+	int n3 = n1 + n2;
+	string bit_str = bitset<maxLenght>(n3).to_string();
+	
+	char* mass = new char[maxLenght + 1];
+	for (int i = 0; i < maxLenght; i++)
+	{
+		mass[i] = bit_str[i];
+	}
+
+	mass[maxLenght] = '\0';
+	
+	return Bitstring(mass);
+}
+
+void Bitstring::operator+=(const Bitstring& str)
+{
+	const int maxLenght = 8;
+
+	int n1 = str2int(this->array);
+	int n2 = str2int(str.array);
+	int n3 = n1 + n2;
+	string bit_str = bitset<maxLenght>(n3).to_string();
+
+	char* mass = new char[maxLenght + 1];
+	for (int i = 0; i < maxLenght; i++)
+	{
+		mass[i] = bit_str[i];
+	}
+
+	mass[maxLenght] = '\0';
+
+	this->size = maxLenght;
+	this->array = mass;
+	
+}
+
+bool Bitstring::operator==(const Bitstring& str)
+{
+	if (strlen(this->array) == strlen(str.array))
+	{
+		for (int i = 0; i < strlen(str.array); i++)
+		{
+			if (this->array[i] != str.array[i])
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	return false;
+}
+
+bool Bitstring::operator!=(const Bitstring& str)
+{
+	if (strlen(this->array) == strlen(str.array))
+	{
+		for (int i = 0; i < strlen(str.array); i++)
+		{
+			if (this->array[i] != str.array[i])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	return true;
+}
+
+int Bitstring::str2int(char* str)
+{
+	int rezult = 0;
+	while (*str)
+	{
+		rezult = rezult * 2 + (*str++ - '0');
+	}
+
+	return rezult;
+}
+
+void Bitstring::negative()
+{
+	int number = str2int(this->array);
+
+	cout << "Bin = " << this->array << " is " << number << " decimal." << endl;
+	
+	if (this->array[0] == '1')
+	{
+		int new_size = this->size + 1;
+
+		char* mass = new char[new_size];
+		mass[0] = '1';
+		for (int i = 1; i < new_size; i++)
+		{
+			mass[i] = this->array[i - 1];
+		}
+
+		this->size = new_size;
+		this->array = mass;
+
+		cout << "Bin = " << this->array << " is -" << number << " decimal." << endl;
+	}
+	else
+	{
+		this->array[0] = '1';
+		cout << "Bin = " << this->array << " is -" << number << " decimal." << endl;
+	}
+	
+}

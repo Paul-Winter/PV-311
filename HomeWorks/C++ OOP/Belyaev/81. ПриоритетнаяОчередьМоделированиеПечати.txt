@@ -1,0 +1,190 @@
+﻿***************************************main.cpp********************************
+//ЗАДАНИЕ 2.
+//Разработать приложение, имитирующее очередь печати принтера.
+//Должны быть клиенты, посылающие запросы на принтер, у каждого из которых есть свой приоритет.
+//Каждый новый клиент попадает в очередь в зависимости от своего приоритета.
+//Необходимо сохранять статистику печати (пользователь, время) в отдельной очереди.
+//Предусмотреть вывод статистики на экран.
+
+#include <iostream>
+#include "queue.h"
+using namespace std;
+
+int main()
+{
+    modeling();
+    
+    return 0;
+}
+***************************************queue.h***********************************
+#pragma once
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Queue
+{
+private:
+
+    string* time;
+    int* User;
+    int* Priority;
+    int MaxLength;
+    int CurrentLength;
+
+public:
+
+    Queue(int size);
+    ~Queue();
+    void Add(int usr, int prt, string time);
+    void Printing();
+    void Clear();
+    bool IsEmpty();
+    bool IsFull();
+    int GetCount();
+    void display();
+};
+
+void modeling();
+*************************************queue.cpp*********************************
+#include "queue.h"
+
+Queue::Queue(int size)
+{
+    MaxLength = size;
+    time = new string[MaxLength];
+    User = new int[MaxLength];
+    Priority = new int[MaxLength];
+    CurrentLength = 0;
+}
+
+Queue::~Queue()
+{
+    delete[]time;
+    delete[]User;
+    delete[]Priority;
+}
+
+void Queue::Add(int usr, int prt, string time)
+{
+    if (!IsFull())
+    {
+        this->time[CurrentLength] = time;
+        User[CurrentLength] = usr;
+        Priority[CurrentLength] = prt;
+        CurrentLength++;
+    }
+}
+
+void Queue::Printing()
+{
+    if (!IsEmpty())
+    {
+        int size = this->MaxLength;
+        
+        Queue print(size);
+
+        for (int i = 0; i < size; i++)
+        {
+            if (this->Priority[i] == 3)
+            {
+                print.Add(this->User[i], this->Priority[i], this->time[i]);
+            }
+        }
+        for (int i = 0; i < size; i++)
+        {
+            if (this->Priority[i] == 2)
+            {
+                print.Add(this->User[i], this->Priority[i], this->time[i]);
+            }
+        }
+        for (int i = 0; i < size; i++)
+        {
+            if (this->Priority[i] == 1)
+            {
+                print.Add(this->User[i], this->Priority[i], this->time[i]);
+            }
+        }
+
+        print.display();
+    }
+}
+
+void Queue::Clear()
+{
+    CurrentLength = 0;
+}
+
+bool Queue::IsEmpty()
+{
+    return CurrentLength == 0;
+}
+
+bool Queue::IsFull()
+{
+    return CurrentLength == MaxLength;
+}
+
+int Queue::GetCount()
+{
+    return CurrentLength;
+}
+
+void Queue::display()
+{
+    string priority = "normal";
+    
+    cout << "--------------------------------";
+    cout << "\nTime\tUserName\tPriority";
+    cout << "\n--------------------------------\n";
+    
+    for (int i = 0; i < CurrentLength; i++)
+    {
+        if (Priority[i] == 3)
+        {
+            priority = "critical";
+        }
+        else if (Priority[i] == 2)
+        {
+            priority = "high";
+        }
+        else
+        {
+            priority = "normal";
+        }
+        
+        cout << time[i] << "\tUser" << User[i] << "\t\t" << priority << "\n";
+    }
+}
+
+void modeling()
+{
+    srand(time(0));
+    int size = 10;
+    int count = 10;
+    
+    while (true)
+    {
+        system("cls");
+        Queue spooler(size);
+        string time = "0:00";
+        string hour = "0";
+        string min = "00";
+        
+        hour = to_string(rand() % 8 + 10);
+        
+        for (int i = 0; i < size; i++)
+        {
+            min = to_string(count + i);
+            time = hour + ":" + min;
+
+            spooler.Add(rand() % 20 + 1, rand() % 3 + 1, time);
+        }
+        cout << "Current queue:" << endl;
+        spooler.display();
+        cout << "\nTask to print:" << endl;
+        spooler.Printing();
+
+        system("pause");
+    }
+}
