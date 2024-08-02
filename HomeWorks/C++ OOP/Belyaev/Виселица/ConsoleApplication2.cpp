@@ -24,9 +24,9 @@ int main()
         system("cls");
         game();
         system("pause");
-        cout << "Wanna play again?\n>";
+        cout << "Wanna play again(y/n)?\n>";
         cin >> choise;
-        
+
         if (choise == 'y' || choise == 'Y')
         {
             cont = true;
@@ -36,6 +36,6 @@ int main()
             cont = false;
         }
     }
-    
+
     return 0;
 }
