@@ -1,0 +1,218 @@
+﻿***********************************main.cpp**********************************
+//ЗАДАНИЕ 1.
+//Добавьте механизм виртуального наследования в задание
+//1 и 2 из самостоятельной работы.
+
+#include <iostream>
+#include "pets.h"
+#include "dog.h"
+#include "cat.h"
+#include "parrot.h"
+
+int main()
+{
+    cout << "DOG: " << endl;
+    Dog newDog(" ", " ", 0, " ");
+    newDog.setName("Name");
+    newDog.setColor("White");
+    newDog.SetAge(5);
+    newDog.setDogBreed("Breed");
+    newDog.Type();
+    newDog.display();
+    
+    cout << "CAT: " << endl;
+    Cat newCat(" ", " ", 0, " ");
+    newCat.setName("Name2");
+    newCat.setColor("Black");
+    newCat.SetAge(1);
+    newCat.setCatBreed("Breed2");
+    newCat.Type();
+    newCat.display();
+
+    cout << "PARROT: " << endl;
+    Parrot newParrot("Name3", "Red", 2, "Breed3");
+    newParrot.Type();
+    newParrot.display();
+        
+    return 0;
+}
+*************************************pets.h***********************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class Pet
+{
+protected:
+
+    string name;
+    string color;
+    int age;
+
+public:
+
+    Pet() : name(" "), color(" "), age(0)
+    {
+
+    }
+    
+    Pet(string name, string color, int age)
+    {
+        this->name = name;
+        this->color = color;
+        this->age = age;
+    }
+    
+    virtual void setName(string name) = 0;
+    virtual void setColor(string color) = 0;
+    virtual void SetAge(int age) = 0;
+    virtual void display() = 0;
+    
+};
+*********************************dog.h*****************************************
+#pragma once
+#include "pets.h"
+
+class Dog : public Pet
+{
+protected:
+
+	string dogBreed;
+
+public:
+
+	Dog(string name, string color, int age, string breed) : Pet(name, color, age)
+    {
+        this->dogBreed = breed;
+    }
+    
+    void setName(string name) override
+    {
+        this->name = name;
+    }
+
+    void display() override
+    {
+        cout << "Name : " << this->name << endl;
+        cout << "Color : " << this->color << endl;
+        cout << "Age: " << this->age << endl;
+    }
+    
+    void setColor(string color) override
+    {
+        this->color = color;
+    }
+    
+    void SetAge(int age) override
+    {
+        this->age = age;
+    }
+    
+    void setDogBreed(string breed)
+    {
+        this->dogBreed = breed;
+    }
+
+    void Type()
+    {
+        cout << "Breed of the dog: " << this->dogBreed << endl;
+    }
+};
+***************************************cat.h***********************************
+#pragma once
+#include "pets.h"
+
+class Cat : public Pet
+{
+protected:
+
+    string catBreed;
+
+public:
+
+    Cat(string name, string color, int age, string breed) : Pet(name, color, age)
+    {
+        this->catBreed = breed;
+    }
+    
+    void setName(string name) override
+    {
+        this->name = name;
+    }
+
+    void display() override
+    {
+        cout << "Name : " << this->name << endl;
+        cout << "Color : " << this->color << endl;
+        cout << "Age: " << this->age << endl;
+    }
+
+    void setColor(string color) override
+    {
+        this->color = color;
+    }
+
+    void SetAge(int age) override
+    {
+        this->age = age;
+    }
+
+    void setCatBreed(string breed)
+    {
+        this->catBreed = breed;
+    }
+
+    void Type()
+    {
+        cout << "Breed of the cat: " << this->catBreed << endl;
+    }
+};
+**************************************parrot.h*********************************
+#pragma once
+#include "pets.h"
+
+class Parrot : public Pet
+{
+protected:
+
+    string parrotBreed;
+
+public:
+
+    Parrot(string name, string color, int age, string breed) : Pet(name, color, age)
+    {
+        this->parrotBreed = breed;
+    }
+
+    void setName(string name) override
+    {
+        this->name = name;
+    }
+
+    void display() override
+    {
+        cout << "Name : " << this->name << endl;
+        cout << "Color : " << this->color << endl;
+        cout << "Age: " << this->age << endl;
+    }
+
+    void setColor(string color) override
+    {
+        this->color = color;
+    }
+
+    void SetAge(int age) override
+    {
+        this->age = age;
+    }
+
+    void setParrotBreed(string breed)
+    {
+        this->parrotBreed = breed;
+    }
+
+    void Type()
+    {
+        cout << "Breed of the parrot: " << this->parrotBreed << endl;
+    }
+};

@@ -1,0 +1,384 @@
+*******************************************main.cpp*******************************************
+//ЗАДАНИЕ.
+//Создайте программу, имитирующую многоквартирный дом.
+//Необходимо иметь классы “Человек”, “Квартира”, “Дом”.
+//Класс “Квартира” содержит динамический массив объектов 
+//класса “Человек”. Класс “Дом” содержит массив объектов 
+//класса “Квартира”.
+//Каждый из классов содержит переменные-члены и функции-члены,
+//которые необходимы для предметной области класса.
+//Обращаем ваше внимание, что память под строковые значения
+//выделяется динамически. Например, для ФИО в классе “Человек”.
+//Не забывайте обеспечить классы различными конструкторами
+//(конструктор копирования обязателен), деструкторами.
+//В main протестировать работу полученного набора классов.
+
+#include <iostream>
+#include <string>
+#include "human.h"
+#include "flat.h"
+#include "house.h"
+using namespace std;
+
+int main()
+{
+    Human H1("First Second Third", "first human");
+    Human H2("First2 Second2 Third2", "second human");
+    
+    Human* citizents = new Human[2];
+    citizents[0] = H1;
+    citizents[1] = H2;
+    
+    Human HM1("One Two Three", "first2 human");
+    Human HM2("One2 Two2 Three2", "second2 human");
+    Human HM3("One3 Two3 Three3", "third2 human");
+    
+    Human* citizents2 = new Human[3];
+    citizents2[0] = HM1;
+    citizents2[1] = HM2;
+    citizents2[2] = HM3;
+
+    Flat F1(1, citizents, 2, "first flat");
+    Flat F2(2, citizents2, 3, "second flat");
+        
+    Flat* flats = new Flat[2];
+    flats[0] = F1;
+    flats[1] = F2;
+    
+    House HS(1, flats, 2, "first home");
+    HS.display();
+    
+    cout << "Copy the house:" << endl;
+    
+    Human H3 { HM3 };
+    House HS2{ HS };
+    HS2.display();
+    
+    return 0;
+}
+*******************************************human.h*******************************************
+#pragma once
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Human
+{
+private:
+	
+	char* fio;
+	char* external_info;
+
+public:
+	
+	Human();
+	
+	Human(const char* new_fio, const char* new_external_info);
+
+	Human(const Human& citezen);
+		
+	void setFio(const char* new_fio);
+	void setExternal_info(const char* new_external_info);
+
+	char* getFio();
+	char* getExternal_info();
+
+	void display();
+
+	~Human();
+};
+*******************************************human.cpp*******************************************
+#include "human.h"
+
+Human::Human() : Human{ nullptr, nullptr }
+{
+
+}
+
+Human::Human(const char* new_fio, const char* new_external_info) : fio{ new_fio ? new char[strlen(new_fio) + 1] : nullptr },
+external_info{ new_external_info ? new char[strlen(new_external_info) + 1] : nullptr }
+{
+	if (fio)
+	{
+		strcpy_s(fio, strlen(new_fio) + 1, new_fio);
+	}
+	if (external_info)
+	{
+		strcpy_s(external_info, strlen(new_external_info) + 1, new_external_info);
+	}
+}
+
+Human::Human(const Human& citezen) : fio{ new char[strlen(citezen.fio) + 1] }, external_info{ new char[strlen(citezen.external_info) + 1]}
+{
+	for (int i = 0; i < strlen(citezen.fio) + 1 ; i++)
+	{
+		this->fio[i] = citezen.fio[i];
+	}
+	for (int j = 0; j < strlen(citezen.external_info) + 1; j++)
+	{
+		this->external_info[j] = citezen.external_info[j];
+	}
+}
+
+void Human::setFio(const char* new_fio)
+{
+	this->fio = new char[strlen(new_fio) + 1];
+	strcpy_s(fio, strlen(new_fio) + 1, new_fio);
+}
+
+void Human::setExternal_info(const char* new_external_info)
+{
+	this->external_info = new char[strlen(new_external_info) + 1];
+	strcpy_s(external_info, strlen(new_external_info) + 1, new_external_info);
+}
+
+char* Human::getFio()
+{
+	return this->fio;
+}
+
+char* Human::getExternal_info()
+{
+	return this->external_info;
+}
+
+void Human::display()
+{
+	cout << "Current human: " << this->fio << ", " << this->external_info << endl;
+}
+
+Human::~Human()
+{
+	delete[] this->fio;
+	delete[] this->external_info;
+}
+*******************************************flat.h*******************************************
+#pragma once
+#include "human.h"
+
+class Flat
+{
+private:
+
+	int flat_number;
+	Human* citizen;
+	int count_of_citizents;
+	char* external_flat_info;
+
+public:
+
+	Flat();
+
+	Flat(int flat_number, Human* citizen, int count_of_citizents, const char* new_external_flat_info);
+
+	Flat(const Flat& flat);
+
+	void setFlat(const int flat_number);
+	void setHuman(Human* citizen);
+	void setExternal_flat_info(const char* new_external_flat_info);
+
+	int getFlat();
+	Human* getHuman();
+	char* getExternal_flat_info();
+
+	void display();
+
+	~Flat();
+};
+*******************************************flat.cpp*******************************************
+#include "flat.h"
+
+Flat::Flat() : Flat{0, nullptr, 0, nullptr }
+{
+
+}
+
+Flat::Flat(int flat_number, Human* citizen, int count_of_citizents, const char* new_external_flat_info) : flat_number{ flat_number },
+citizen{ citizen ? new Human[count_of_citizents] : nullptr }, count_of_citizents{ count_of_citizents },
+external_flat_info{ new_external_flat_info ? new char[strlen(new_external_flat_info) + 1] : nullptr }
+{
+	if (external_flat_info)
+	{
+		strcpy_s(external_flat_info, strlen(new_external_flat_info) + 1, new_external_flat_info);
+	}
+	
+	for (int i = 0; i < this->count_of_citizents; i++)
+	{
+		this->citizen[i] = citizen[i];
+	}
+}
+
+Flat::Flat(const Flat& flat) : flat_number{ flat.flat_number }, citizen{ new Human[flat.count_of_citizents] },
+count_of_citizents{ flat.count_of_citizents }, external_flat_info{ new char[strlen(flat.external_flat_info) + 1] }
+{
+	for (int i = 0; i < flat.count_of_citizents; i++)
+	{
+		this->citizen[i] = flat.citizen[i];
+	}
+	
+	for (int j = 0; j < strlen(flat.external_flat_info) + 1; j++)
+	{
+		this->external_flat_info[j] = flat.external_flat_info[j];
+	}
+}
+
+void Flat::setFlat(const int flat_number)
+{
+	this->flat_number = flat_number;
+}
+
+void Flat::setHuman(Human* citizen)
+{
+	this->citizen = citizen;
+}
+
+void Flat::setExternal_flat_info(const char* new_external_flat_info)
+{
+	this->external_flat_info = new char[strlen(new_external_flat_info) + 1];
+	strcpy_s(external_flat_info, strlen(new_external_flat_info) + 1, new_external_flat_info);
+}
+
+int Flat::getFlat()
+{
+	return this->flat_number;
+}
+
+Human* Flat::getHuman()
+{
+	return this->citizen;
+}
+
+char* Flat::getExternal_flat_info()
+{
+	return this->external_flat_info;
+}
+
+void Flat::display()
+{
+	cout << "Current flat number: " << this->flat_number << ", " << this->external_flat_info << ", citizents:" << endl;
+	
+	for (int i = 0; i < this->count_of_citizents; i++)
+	{
+		this->citizen[i].display();
+	}
+}
+
+Flat::~Flat()
+{
+	delete[] this->external_flat_info;
+}
+*******************************************house.h*******************************************
+#pragma once
+#include "flat.h"
+
+class House
+{
+private:
+
+	int house_number;
+	Flat* flat;
+	int count_of_flats;
+	char* external_house_info;
+
+public:
+
+	House();
+	
+	House(int house_number, Flat* flat, int count_of_flats, const char* external_house_info);
+
+	House(const House& house);
+
+	void setHouse(const int house_number);
+	void setHouse(Flat* flat);
+	void setExternal_house_info(const char* external_house_info);
+
+	int getHouseNumber();
+	Flat* getFlat();
+	char* getExternal_house_info();
+
+	void display();
+
+	~House();
+};
+*******************************************house.cpp*******************************************
+#include "house.h"
+
+House::House() : House{ 0, nullptr, 0, nullptr }
+{
+
+}
+
+House::House(int house_number, Flat* flat, int count_of_flats, const char* new_external_house_info) : house_number{ house_number },
+flat{ flat ? new Flat[count_of_flats] : nullptr }, count_of_flats{ count_of_flats },
+external_house_info{ new_external_house_info ? new char[strlen(new_external_house_info) + 1] : nullptr }
+{
+	if (external_house_info)
+	{
+		strcpy_s(external_house_info, strlen(new_external_house_info) + 1, new_external_house_info);
+	}
+
+	for (int i = 0; i < this->count_of_flats; i++)
+	{
+		this->flat[i] = flat[i];
+	}
+}
+
+House::House(const House& house) : house_number{ house.house_number }, flat{ new Flat[house.count_of_flats] },
+count_of_flats{ house.count_of_flats }, external_house_info{ new char[strlen(house.external_house_info) + 1] }
+{
+	for (int i = 0; i < house.count_of_flats; i++)
+	{
+		this->flat[i] = house.flat[i];
+	}
+
+	for (int j = 0; j < strlen(house.external_house_info) + 1; j++)
+	{
+		this->external_house_info[j] = house.external_house_info[j];
+	}
+}
+
+void House::setHouse(const int house_number)
+{
+	this->house_number = house_number;
+}
+
+void House::setHouse(Flat* flat)
+{
+	this->flat = flat;
+}
+
+void House::setExternal_house_info(const char* new_external_house_info)
+{
+	this->external_house_info = new char[strlen(new_external_house_info) + 1];
+	strcpy_s(external_house_info, strlen(new_external_house_info) + 1, new_external_house_info);
+}
+
+int House::getHouseNumber()
+{
+	return this->house_number;
+}
+
+Flat* House::getFlat()
+{
+	return this->flat;
+}
+
+char* House::getExternal_house_info()
+{
+	return this->external_house_info;;
+}
+
+void House::display()
+{
+	cout << "Current home number: " << this->house_number << ", " << this->external_house_info << ", flats:" << endl;
+
+	for (int i = 0; i < this->count_of_flats; i++)
+	{
+		this->flat[i].display();
+	}
+}
+
+House::~House()
+{
+	delete[] this->external_house_info;
+}

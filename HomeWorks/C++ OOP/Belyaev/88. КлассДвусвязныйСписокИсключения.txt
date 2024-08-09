@@ -1,0 +1,274 @@
+﻿**************************************main.cpp**********************************
+//ЗАДАНИЕ 1.
+//Добавьте в класс двусвязного списка механизм обработки исключений.
+//На ваш выбор генерируйте исключения в случае ошибок. 
+//Например, нехватка памяти, попытка удаления из пустого списка и т.д.
+
+#include <iostream>
+#include "dList.h"
+#include "exception.h"
+using namespace std;
+
+int main()
+{
+    DList obj(0);
+    int data;
+    
+    obj.display();
+    
+    cout << "Enter elements (0 - to exit):" << endl;
+    while (true)
+    {
+        cin >> data;
+        if (data)
+        {
+            obj.pushFront(data);
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    obj.display();
+    
+    while (obj.count() != 0 )
+    {
+        obj.popFront();
+    }
+    
+    cout << "List is empty..." << endl;
+    
+    obj.popFront();
+
+
+    return 0;
+}
+**************************************dList.h**********************************
+#pragma once
+#include <iostream>
+#include "exception.h"
+#include "empty.h"
+#include "del.h"
+
+using namespace std;
+
+class DList
+{
+protected:
+
+	struct Elem
+	{
+	public:
+		int data;
+		Elem* left;
+		Elem* right;
+
+		Elem()
+		{
+
+		}
+	};
+
+	int size;
+	Elem* head;
+	Elem* tail;
+
+public:
+
+	DList(const int size) : size{ size }
+	{
+		this->head = nullptr;
+		this->tail = nullptr;
+	}
+
+	void pushFront(const int value)
+	{
+		Elem* temp = new Elem;
+		temp->data = value;
+		if (!head) {
+			temp->right = tail;
+			tail = temp;
+		}
+		else {
+			temp->right = head;
+			head->left = temp;
+		}
+		head = temp;
+		head->left = nullptr;
+	}
+
+	void pushBack(const int value)
+	{
+		Elem* temp = new Elem;
+		temp->data = value;
+		if (!head) {
+			temp->right = tail;
+			head = temp;
+			temp->left = nullptr;
+		}
+		else {
+			temp->right = tail->right;
+			temp->left = tail;
+			tail->right = temp;
+		}
+		tail = temp;
+	}
+
+	void popFront()
+	{
+		try
+		{
+			if (tail->left != nullptr && head->right != nullptr)
+			{
+				if (head)
+				{
+					this->head = head->right;
+					delete head->left;
+					head->left = nullptr;
+				}
+				else
+				{
+					head = nullptr;
+					tail = nullptr;
+				}
+			}
+			else
+			{
+				throw Del();
+			}
+		}
+		catch (Exception& exception)
+		{
+			exception.GetError();
+		}
+	}
+
+	void popBack()
+	{
+		try
+		{
+			if (tail->left != nullptr && head->right != nullptr)
+			{
+				if (tail != nullptr)
+				{
+					this->tail = tail->left;
+					delete tail->right;
+					tail->right = nullptr;
+				}
+				else
+				{
+					head = nullptr;
+					tail = nullptr;
+				}
+			}
+			else
+			{
+				throw Del();
+			}
+		}
+		catch (Exception& exception)
+		{
+			exception.GetError();
+		}
+	}
+
+	int count()
+	{
+		int counter = 0;
+
+		if (head->left == nullptr && head->right == nullptr)
+		{
+			return counter;
+		}
+		else
+		{
+			Elem* temp = head;
+			for (Elem* i = temp; i; i = i->right)
+			{
+				++counter;
+			}
+			return counter;
+		}
+	}
+
+	void display()
+	{
+		try
+		{
+			if (head)
+			{
+				Elem* temp = head;
+				while (temp)
+				{
+					cout << temp->data << " ";
+					temp = temp->right;
+				}
+				cout << endl;
+			}
+			else
+			{
+				throw Empty();
+			}
+		}
+		catch (Exception& exception)
+		{
+			exception.GetError();
+		}
+	}
+};
+**************************************exception.h**********************************
+#pragma once
+
+class Exception
+{
+public:
+    
+    Exception()
+    {
+
+    }
+
+    virtual void GetError() = 0;
+    
+};
+**************************************del.h**********************************
+#pragma once
+#include <iostream>
+#include "exception.h"
+using namespace std;
+
+class Del : public Exception
+{
+public:
+    
+    Del()
+    {
+
+    }
+
+    void GetError()
+    {
+        cout << "Warning! Deleting from empty list!" << endl;
+    }
+};
+**************************************empty.h**********************************
+#pragma once
+#include <iostream>
+#include "exception.h"
+using namespace std;
+
+class Empty : public Exception
+{
+public:
+    
+    Empty()
+    {
+
+    }
+    
+    void GetError()
+    {
+        cout << "Warning! List is empty!" << endl; 
+    }
+};

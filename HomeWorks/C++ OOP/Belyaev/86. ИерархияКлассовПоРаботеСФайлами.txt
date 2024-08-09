@@ -1,0 +1,142 @@
+﻿**********************************main.cpp***********************************
+//ЗАДАНИЕ 1.
+//Создайте иерархию классов по работе с файлами. Базовый
+//класс умеет открывать файл и отображать его содержимое в консоль,
+//первый класс потомка открывает файл и отображает содержимое
+//в виде ASCII-кодов символов, расположенных в файле, 
+//второй класс потомка открывает файл и показывает его содержимое
+//в двоичном виде и т.д.
+//Для отображения содержимого файла в базовом классе определена 
+//виртуальная функция:
+//void Display(const char* path);
+//path — путь к файлу.
+//Потомки создают свою реализацию виртуальной функции.
+
+#include <iostream>
+#include "base.h"
+#include "ascii.h"
+#include "bin.h"
+using namespace std;
+
+int main()
+{
+    const char* ascii_path = "C:\\Intel\\new.txt";
+    const char* bin_path = "C:\\Intel\\new.bin";
+
+    Ascii obj(ascii_path);
+    obj.Display(ascii_path);
+
+    Bin obj2(bin_path);
+    obj2.Display(bin_path);
+
+    return 0;
+}
+**********************************base.h*************************************
+#pragma once
+#include <iostream>
+#include <fstream>
+#include <bitset>
+using namespace std;
+
+class Base
+{
+protected:
+
+	size_t size;
+	const char* path;
+
+	Base() : size{ 0 }, path{ nullptr }
+	{
+		
+	}
+
+public:
+
+	Base(const char* path) : size{ strlen(path) }, path{path}
+	{
+
+	}
+
+	virtual void Display(const char* path) = 0;
+
+};
+**********************************ascii.h************************************
+#pragma once
+#include "base.h"
+
+class Ascii : public Base
+{
+public:
+
+	Ascii() : Base()
+	{
+
+	}
+
+	Ascii(const char* path) : Base()
+	{
+
+	}
+
+	void Display(const char* path) override
+	{
+        char current_symbol = '\0';
+
+		ifstream file;
+		file.open(path);
+        
+        if (file.is_open())
+        {
+            cout << "Reading ASCII-file " << path << ":" << endl;
+            while (!file.eof())
+            {
+                current_symbol = file.get();
+                cout << current_symbol;
+            }
+            cout << endl;
+        }
+        else
+        {
+            cout << "Can't open file to read!" << endl;
+        }
+        file.close();
+	}
+};
+***********************************bin.h****************************************
+#pragma once
+#include "base.h"
+
+class Bin : public Base
+{
+public:
+
+	Bin() : Base()
+	{
+
+	}
+
+	Bin(const char* path) : Base()
+	{
+
+	}
+
+	void Display(const char* path) override
+	{
+		ifstream file(path, ios_base::binary);
+        
+        if (file.is_open())
+        {
+            cout << "Reading BIN-file " << path << ":" << endl;
+            while (!file.eof())
+            {
+                cout << bitset<8>((int)file.get()).to_string();
+            }
+            cout << endl;
+        }
+        else
+        {
+            cout << "Can't open file to read!" << endl;
+        }
+        file.close();
+	}
+};

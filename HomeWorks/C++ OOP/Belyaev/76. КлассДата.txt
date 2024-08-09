@@ -1,0 +1,312 @@
+﻿**********комментарий от преподователя********************
+Еще раз напомню про константные перегрузки)))
+И: вот этот оператор пусть лучше void возвращает:
+Date Date::operator+=(const int numberOfDays)
+{
+	this->day += numberOfDays;
+	return *this;
+}
+А подобные этому значение по ссылке:
+Date Date::operator++()
+{
+	++this->day;
+	return *this;
+}
+, чтобы можно было писать вот  так:
+{
+    int i =0;
+    
+    int a = 10;
+    
+    ++a = 20;
+    
+    //Если оператор ++ ретернет по значению (то есть копию объекта),
+    //то а не станет равной 20
+
+    return 0;
+}
+*********************************main.cpp***************************************
+//ЗАДАНИЕ 1.
+//Создайте класс с именем Date для хранения даты (или используйте ранее созданный).
+//В классе должна быть функция - член, которая увеличивает день на 1.
+//Напишите соответствующие конструкторы и функции - члены.
+//В классе должны быть перегружены операциии ++, --, != , == , > , <, >> , << , =, +=, -=, ().
+//Используйте обычную и дружественную перегрузку.
+
+#include <iostream>
+#include "date.h"
+
+using namespace std;
+
+int main()
+{
+    Date D1(02, 12, 2020);
+    D1.display();
+    cout << endl;
+    
+    cout << "++ ";
+    ++D1;
+    D1.display();
+    cout << endl;
+
+    cout << "-- ";
+    --D1;
+    D1.display();
+    cout << endl;
+
+    Date D2(03, 12, 2020);
+
+    cout << "Compare ";
+    D1.display();
+    cout << " != ";
+    D2.display();
+    cout << ", code ";
+    cout << (D1 != D2) << endl;
+
+    cout << "Compare ";
+    D1.display();
+    cout << " == ";
+    D2.display();
+    cout << ", code ";
+    cout << (D1 == D2) << endl;
+
+    cout << "Compare ";
+    D1.display();
+    cout << " > ";
+    D2.display();
+    cout << ", code ";
+    cout << (D1 > D2) << endl;
+
+    cout << "Compare ";
+    D1.display();
+    cout << " < ";
+    D2.display();
+    cout << ", code ";
+    cout << (D1 < D2) << endl;
+
+    cout << "Output: " << D1 << endl;
+    cout << "Input:" << endl;
+    cin >> D2;
+    cout << D2 << endl;
+
+    D1 = D2;
+    cout << "Output: " << D1 << endl;
+
+    cout << "+= " << (D2 += 5) << endl;
+    cout << "-= " << (D2 -= 2) << endl;
+
+    D1(10);
+
+    return 0;
+}
+****************************************data.h************************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class Date
+{
+private:
+
+	int day;
+	int month;
+	int year;
+	;
+public:
+
+	Date();
+	Date(int day, int month, int year);
+	Date(const Date& data);
+	Date operator-(const Date& data);
+	Date operator+=(const int numberOfDays);
+	Date operator-=(const int numberOfDays);
+	Date operator++();
+	Date operator--();
+	friend bool operator!=(const Date& data1, const Date& data2);
+	friend bool operator==(const Date& data1, const Date& data2);
+	friend bool operator>(const Date& data1, const Date& data2);
+	friend bool operator<(const Date& data1, const Date& data2);
+	const Date operator++(int);
+	friend ostream& operator<< (ostream& output, const Date& data);
+	friend istream& operator>> (istream& input, Date& data);
+	Date operator=(const Date& data);
+	void operator()(const int number);
+
+	void display();
+	int numberOfDays(const Date& data);
+	
+};
+*********************************************data.cpp************************************
+#include "date.h"
+
+Date::Date() : Date{ 0, 0, 0 }
+{
+
+}
+
+Date::Date(int day, int month, int year) : day{ day }, month{ month }, year{ year }
+{
+
+}
+
+Date::Date(const Date& data)
+{
+	this->day = data.day;
+	this->month = data.month;
+	this->year = data.year;
+}
+
+Date Date::operator-(const Date& data)
+{
+	return Date(this->day - data.day, this->month - data.month, this->year - data.year);
+}
+
+Date Date::operator+=(const int numberOfDays)
+{
+	this->day += numberOfDays;
+	return *this;
+}
+
+Date Date::operator-=(const int numberOfDays)
+{
+	this->day -= numberOfDays;
+	return *this;
+}
+
+Date Date::operator++()
+{
+	++this->day;
+	return *this;
+}
+
+Date Date::operator--()
+{
+	--this->day;
+	return *this;
+}
+
+const Date Date::operator++(int)
+{
+	Date data{ day,month,year };
+	++(*this);
+	return data;
+}
+
+Date Date::operator=(const Date& data)
+{
+	this->day = data.day;
+	this->month = data.month;
+	this->year = data.year;
+	return *this;
+}
+
+void Date::operator()(const int number)
+{
+	if (this->day == number)
+	{
+		cout << number << " this is a day in this data." << endl;
+	}
+	else if (this->month == number)
+	{
+		cout << number << " this is a month in this data." << endl;
+	}
+	else if (this->month == number)
+	{
+		cout << number << " this is a year in this data." << endl;
+	}
+	else
+	{
+		cout << number << " this number not included in this data." << endl;
+	}
+}
+
+void Date::display()
+{
+	cout << this->day << "." << this->month << "." << this->year;
+}
+
+bool operator!=(const Date& data1, const Date& data2)
+{
+	if (data1.day == data2.day && data1.month == data2.month && data1.year == data2.year)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool operator==(const Date& data1, const Date& data2)
+{
+	if (data1.day == data2.day && data1.month == data2.month && data1.year == data2.year)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool operator>(const Date& data1, const Date& data2)
+{
+	if (data1.year > data2.year)
+	{
+		return true;
+	}
+	else if (data1.year == data2.year)
+	{
+		if (data1.month > data2.month)
+		{
+			return true;
+		}
+		else if (data1.month == data2.month)
+		{
+			if (data1.day > data2.day)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool operator<(const Date& data1, const Date& data2)
+{
+	if (data1.year < data2.year)
+	{
+		return true;
+	}
+	else if (data1.year == data2.year)
+	{
+		if (data1.month < data2.month)
+		{
+			return true;
+		}
+		else if (data1.month == data2.month)
+		{
+			if (data1.day < data2.day)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+ostream& operator<<(ostream& output, const Date& data)
+{
+	output << data.day << "." << data.month << "." << data.year;
+	return output;
+}
+
+istream& operator>>(istream& input, Date& data)
+{
+	cout << "Enter day>";
+	input >> data.day;
+	input.ignore(1);
+	cout << "Enter month>";
+	input >> data.month;
+	input.ignore(1);
+	cout << "Enter year>";
+	input >> data.year;
+	
+	return input;
+}

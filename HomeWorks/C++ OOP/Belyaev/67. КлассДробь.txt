@@ -1,0 +1,137 @@
+﻿***********************************main.cpp**********************************************
+//ЗАДАНИЕ 1
+//Реализуйте класс Дробь. Необходимо хранить числитель и 
+//знаменатель в качестве переменных-членов. Реализуйте
+//функции-члены для ввода данных в переменные-члены,
+//для выполнения арифметических операций (сложение,
+//вычитание, умножение, деление, и т.д.).
+
+#include <iostream>
+#include "fraction.h"
+
+int main()
+{
+    Fraction fract1, fract2, fract3;
+    
+    cout << "Set first fraction:" << endl;
+    fract1.setNumerator();
+    fract1.setDenomerator();
+
+    cout << "Set second fraction:" << endl;
+    fract2.setNumerator();
+    fract2.setDenomerator();
+    
+    cout << "First fraction: " << fract1.numerator << "/" << fract1.denominator << endl;
+    cout << "Second fraction: " << fract2.numerator << "/" << fract2.denominator << endl;
+    
+    fract3 = fract1.addition(fract2);
+    cout << "Third fraction (addition): " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1.subtract(fract2);
+    cout << "Third fraction (subtract): " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1.multiplycation(fract2);
+    cout << "Third fraction (multiplycation): " << fract3.numerator << "/" << fract3.denominator << endl;
+
+    fract3 = fract1.division(fract2);
+    cout << "Third fraction (division): " << fract3.numerator << "/" << fract3.denominator << endl;
+    
+    return 0;
+}
+***********************************fraction.h**********************************************
+#pragma once
+using namespace std;
+
+class Fraction
+{
+public:
+	int numerator;
+	int denominator;
+
+	void setNumerator();
+	void setDenomerator();
+	Fraction reduce(Fraction f);
+	int GCD(int a, int b);
+	Fraction addition(Fraction f);
+	Fraction subtract(Fraction f);
+	Fraction multiplycation(Fraction f);
+	Fraction division(Fraction f);
+	
+};
+***********************************fraction.cpp**********************************************
+#include <iostream>
+#include "fraction.h"
+
+void Fraction::setNumerator()
+{
+	int N = 0;
+	cout << "Enter value of numerator:";
+	cin >> Fraction::numerator;
+}
+
+void Fraction::setDenomerator()
+{
+	int N = 0;
+	cout << "Enter value of denomerator:";
+	cin >> Fraction::denominator;
+}
+
+Fraction Fraction::reduce(Fraction f)
+{
+	Fraction newFraction;
+	int N = f.numerator;
+	int D = f.denominator;
+	auto g = GCD(N < 0 ? - N : N, D);
+	newFraction.numerator = f.numerator / g;
+	newFraction.denominator = f.denominator / g;
+	return newFraction;
+}
+
+int Fraction::GCD(int a, int b)
+{
+	while (a)
+	{
+		auto t = b % a;
+		b = a;
+		a = t;
+	}
+	return b;
+}
+
+Fraction Fraction::addition(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.denominator + f.numerator * denominator;
+	newFraction.denominator = denominator * f.denominator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+
+Fraction Fraction::subtract(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.denominator - f.numerator * denominator;
+	newFraction.denominator = denominator * f.denominator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+
+Fraction Fraction::multiplycation(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.numerator;
+	newFraction.denominator = denominator * f.denominator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+
+Fraction Fraction::division(Fraction f)
+{
+	Fraction newFraction;
+	newFraction.numerator = numerator * f.denominator;
+	newFraction.denominator = denominator * f.numerator;
+	newFraction = reduce(newFraction);
+	return newFraction;
+}
+
+

@@ -1,0 +1,268 @@
+﻿***********************************main.cpp***********************************
+//ЗАДАНИЕ 1.
+//Создать имитационную модель "остановка маршрутных такси".
+//Необходимо вводить следующую информацию:
+//- среднее время между появлениями пассажиров на остановке в разное время суток;
+//- среднее время между появлениями маршруток на остановке в разное время суток;
+//- тип остановки (конечная или нет).
+//Необходимо определить:
+//- среднее время пребывания человека на остановке;
+//- достаточный интервал времени между приходами маршруток,
+//чтобы на остановке находилось не более N людей одновременно.
+//Количество свободных мест в маршрутке является случайной величиной.
+
+#include <iostream>
+#include "stack.h"
+using namespace std;
+
+int main()
+{
+    int maxNumberPassingers = 10;
+    int availableSeatsDay = 6;
+    int availableSeatsNight = 11;
+    int availableSeatsFinal = 15;
+    bool typeBusStop = false;
+    int passengersAppearanceDay = 3;
+    int passengersAppearanceNight = 10;
+
+    cout << "INPUT OF INITIAL DATA:" << endl;
+    
+    cout << "Enter type of the bus stop (1 - final, 0 - intermediate)>";
+    cin >> typeBusStop;
+        
+    cout << "Enter N - max value of number of passingers on the bus stop (for example 10)>";
+    cin >> maxNumberPassingers;
+
+    cout << "Enter available seats in minibas on the day (for example 5)>";
+    cin >> availableSeatsDay;
+
+    cout << "Enter available seats in minibas on the night (for example 10)>";
+    cin >> availableSeatsNight;
+
+    cout << "Enter available seats in minibas on the final bus stop (free minibus), (for example 15)>";
+    cin >> availableSeatsFinal;
+    
+    cout << "Enter time to apperance new passenger on the bus stop on the day (minutes), (for example 3)>";
+    cin >> passengersAppearanceDay;
+
+    cout << "Enter time to apperance new passenger on the bus stop on the night (minutes), (for example 10)>";
+    cin >> passengersAppearanceNight;
+
+    modeling(maxNumberPassingers, availableSeatsDay, availableSeatsNight, availableSeatsFinal,
+            typeBusStop, passengersAppearanceDay, passengersAppearanceNight);
+    
+    return 0;
+}
+***************************************stack.h*********************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class Stack
+{
+private:
+
+    int stack_counter = 0;
+    bool* stack = nullptr;
+
+public :
+
+    void addStack();
+    
+    void deleteStack();
+
+    int count();
+
+    void display();
+};
+
+void modeling(int maxNumberPassingers, int availableSeatsDay, int availableSeatsNight, int availableSeatsFinal,
+                bool typeBusStop, int passengersAppearanceDay, int passengersAppearanceNight);
+****************************************stack.cpp********************************
+#include "stack.h"
+
+void Stack::addStack()
+{
+    bool* buf = new bool[stack_counter + 1];
+
+    for (int i = 0; i < stack_counter; i++)
+    {
+        buf[i] = this->stack[i];
+    }
+
+    buf[stack_counter] = 1;
+    delete[] this->stack;
+    ++stack_counter;
+    this->stack = buf;
+}
+
+void Stack::deleteStack()
+{
+    bool* buf = new bool[stack_counter - 1];
+
+    for (int i = 0; i < stack_counter - 1; i++)
+    {
+        buf[i] = this->stack[i];
+    }
+
+    delete[] this->stack;
+    --stack_counter;
+    this->stack = buf;
+}
+
+int Stack::count()
+{
+    int counter = 0;
+
+    for (int i = 0; i < this->stack_counter; i++)
+    {
+        counter += this->stack[i];
+    }
+    
+    return counter;
+}
+
+void Stack::display()
+{
+    for (int i = 0; i < this->stack_counter; i++)
+    {
+        cout << this->stack[i] << " ";
+    }
+    cout << endl;
+}
+
+void modeling(int maxNumberPassingers, int availableSeatsDay, int availableSeatsNight, int availableSeatsFinal,
+                bool typeBusStop, int passengersAppearanceDay, int passengersAppearanceNight)
+{
+    Stack passengersOnBusStop;
+
+    int minibusAppearanceDay = 0;
+    int minibusAppearanceNight = 0;
+    int passengersOnBusStopDay = 0;
+    int passengersOnBusStopNight = 0;
+    bool overflow = false;
+
+    int m = 0;
+    int hours = 6;
+    int minutes = 0;
+    
+    cout << "Modeling of the day..." << endl;
+    while (!overflow)
+    {
+        ++minibusAppearanceDay;
+        //cout << ">try " << minibusAppearanceDay << " minutes." << endl;
+
+        for (int i = 0, j = 0, k = 0, l = 0; i < 1020; i++)
+        {
+            //system("cls");
+
+            minutes = i - (l * 60);
+            l = i / 60;
+            hours = l + 5;
+            if (minutes == 60)
+            {
+                minutes = 0;
+            }
+
+            if (i == j + passengersAppearanceDay)
+            {
+
+                j = i;
+                passengersOnBusStop.addStack();
+            }
+
+            if (i == k + minibusAppearanceDay)
+            {
+
+                k = i;
+
+                m = rand() % (availableSeatsDay + 1);
+                if (typeBusStop)
+                {
+                    m = availableSeatsFinal;
+                }
+                for (int i = 0; i < m; i++)
+                {
+                    if (passengersOnBusStop.count() > 0)
+                    {
+                        passengersOnBusStop.deleteStack();
+                    }
+                }
+            }
+
+            passengersOnBusStopDay = passengersOnBusStop.count();
+
+            if (passengersOnBusStopDay > 10)
+            {
+                overflow = true;
+            }
+            //cout << "Time: " << hours << ":" << minutes << ", number of passengers on bus stop " << passengersOnBusStopDay << endl;
+
+        }
+    }
+
+    cout << "At the day, appearance of the minibus must be " << minibusAppearanceDay << " minutes." << endl;
+
+    m = 0;
+    hours = 0;
+    minutes = 0;
+    overflow = false;
+
+    cout << "Modeling of the night..." << endl;
+    while (!overflow)
+    {
+        ++minibusAppearanceNight;
+        //cout << ">try " << minibusAppearanceNight << " minutes." << endl;
+
+        for (int i = 0, j = 0, k = 0, l = 0; i < 360; i++)
+        {
+            //system("cls");
+
+            minutes = i - (l * 60);
+            l = i / 60;
+            hours = l;
+            if (minutes == 60)
+            {
+                minutes = 0;
+            }
+
+            if (i == j + passengersAppearanceNight)
+            {
+
+                j = i;
+                passengersOnBusStop.addStack();
+            }
+
+            if (i == k + minibusAppearanceNight)
+            {
+
+                k = i;
+
+                m = rand() % (availableSeatsNight + 1);
+                if (typeBusStop)
+                {
+                    m = availableSeatsFinal;
+                }
+                for (int i = 0; i < m; i++)
+                {
+                    if (passengersOnBusStop.count() > 0)
+                    {
+                        passengersOnBusStop.deleteStack();
+                    }
+                }
+            }
+
+            passengersOnBusStopNight = passengersOnBusStop.count();
+
+            if (passengersOnBusStopNight > 10)
+            {
+                overflow = true;
+            }
+            //cout << "Time: " << hours << ":" << minutes << ", number of passengers on bus stop " << passengersOnBusStopNight << endl;
+
+        }
+    }
+
+    cout << "At the night, appearance of the minibus must be " << minibusAppearanceNight << " minutes." << endl;
+    
+}

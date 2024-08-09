@@ -1,0 +1,671 @@
+*******************************************main.cpp*******************************************
+//ЗАДАНИЕ.
+//Создайте приложение "Телефонная книга".
+//Необходимо хранить данные об абоненте(ФИО, домашний телефон,
+//рабочий телефон, мобильный телефон, дополнительная
+//информация о контакте) внутри соответствующего класса.
+//Наполните класс переменными - членами, функциями - членами, 
+//конструкторами, inline - функциями - членами,
+//используйте инициализаторы, реализуйте деструктор.
+//Обязательно необходимо выделять динамически память
+//под ФИО. Предоставьте пользователю возможность добавлять новых 
+//абонентов, удалять абонентов, искать абонентов по ФИО, 
+//показывать всех абонентов, сохранять информацию в файл и загружать из файла.
+
+#include <iostream>
+#include <string>
+#include "person.h"
+using namespace std;
+
+Person* createPerson()
+{
+    string newFio;
+    cout << "Enter FIO: ";
+    getline(cin, newFio);
+
+    string newHomeNumber;
+    cout << "Enter home number: ";
+    getline(cin, newHomeNumber);
+    
+    string newWorkNumber;
+    cout << "Enter work number: ";
+    getline(cin, newWorkNumber);
+
+    string newMobileNumber;
+    cout << "Enter mobile number: ";
+    getline(cin, newMobileNumber);
+
+    string newExternalInfo;
+    cout << "Enter external info: ";
+    getline(cin, newExternalInfo);
+
+    Person* newPerson = new Person{ 
+        (char*)newFio.c_str(),
+        (char*)newHomeNumber.c_str(),
+        (char*)newWorkNumber.c_str(),
+        (char*)newMobileNumber.c_str(),
+        (char*)newExternalInfo.c_str()
+                    };
+    return newPerson;
+}
+
+int count_records(const char* path)                     //функция подсчёта записей в файле
+{
+    int counter = 0;
+    FILE* in;
+    int string_size = 150;
+    char* current_string = new char[string_size];
+
+    if (fopen_s(&in, path, "r") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        while (!feof(in))
+        {
+            fgets(current_string, string_size, in);
+            ++counter;
+        }
+    }
+    fclose(in);
+
+    return counter - 1;
+}
+
+bool addRecord(Person* currentPerson, const char* path)  //добавление записи (запись строки в файл)
+{
+    bool isAdded = false;
+    int record_counter = 0;
+    record_counter = count_records(path);
+    FILE* out;
+
+    if (fopen_s(&out, path, "a") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        fputs(currentPerson->createFullString(), out);
+    }
+    fclose(out);
+
+    return isAdded;
+}
+
+void deleteRecord(int number, const char* path)      //удаление строки из файла
+{
+    int counter = 0;
+    int position = 0;
+    position = count_records(path);
+    int str_len = 0;
+    bool str_end = false;
+    FILE* in;
+    FILE* out;
+    int string_size = 255;
+    char** out_file = new char* [position];
+    for (int i = 0; i < position; i++)
+    {
+        out_file[i] = new char[string_size];
+    }
+
+    for (int i = 0; i < position; i++)
+    {
+        for (int j = 0; j < string_size; j++)
+        {
+            out_file[i][j] = ' ';
+        }
+    }
+
+    char* current_string = new char[string_size];
+    for (int j = 0; j < string_size; j++)
+    {
+        current_string[j] = ' ';
+    }
+
+    if (fopen_s(&in, path, "r") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        while (!feof(in))
+        {
+            for (int i = 0; i < position; i++)
+            {
+                fgets(current_string, string_size, in);
+                str_len = strlen(current_string);
+
+                if (current_string[0] != '\0')
+                {
+                    if (i != number - 1)
+                    {
+                        for (int j = 0; j < str_len; j++)
+                        {
+                            out_file[i][j] = current_string[j];
+                        }
+
+                        for (int j = str_len; j < string_size; j++)
+                        {
+                            out_file[i][str_len] = '\0';
+                        }
+                    }
+                }
+            }
+            current_string[0] = '\0';
+        }
+    }
+    fclose(in);
+
+
+    if (fopen_s(&out, path, "w") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < position; i++)
+        {
+            if (out_file[i][0] != ' ')
+            {
+                fputs(out_file[i], out);
+            }
+        }
+    }
+    fclose(out);
+
+    current_string = nullptr;
+
+    for (int i = 0; i < position; i++)
+    {
+        delete[] out_file[i];
+    }
+    delete[] out_file;
+    delete[] current_string;
+}
+
+void editRecord(int number, const char* path)    //редактирование записи (замена строки в файле)
+{
+    Person* currentPerson;
+    int counter = 0;
+    int position = 0;
+    position = count_records(path);
+    int str_len = 0;
+    bool str_end = false;
+    FILE* in;
+    FILE* out;
+    int string_size = 255;
+    char** out_file = new char* [position];
+    for (int i = 0; i < position; i++)
+    {
+        out_file[i] = new char[string_size];
+    }
+
+    for (int i = 0; i < position; i++)
+    {
+        for (int j = 0; j < string_size; j++)
+        {
+            out_file[i][j] = ' ';
+        }
+    }
+
+    char* current_string = new char[string_size];
+    for (int j = 0; j < string_size; j++)
+    {
+        current_string[j] = ' ';
+    }
+
+    if (fopen_s(&in, path, "r") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        while (!feof(in))
+        {
+            for (int i = 0; i < position; i++)
+            {
+                fgets(current_string, string_size, in);
+                str_len = strlen(current_string);
+
+                if (current_string[0] != '\0')
+                {
+                    if (i == number - 1)
+                    {
+                        cout << "Editing: " << current_string << ":" << endl;
+                        currentPerson = createPerson();
+                        current_string = currentPerson->createFullString();
+                        str_len = strlen(current_string);
+                    }
+
+                    for (int j = 0; j < str_len; j++)
+                    {
+                        out_file[i][j] = current_string[j];
+                    }
+
+                    for (int j = str_len; j < string_size; j++)
+                    {
+                        out_file[i][str_len] = '\0';
+                    }
+
+                }
+            }
+            current_string[0] = '\0';
+        }
+    }
+    fclose(in);
+
+    if (fopen_s(&out, path, "w") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < position; i++)
+        {
+            fputs(out_file[i], out);
+        }
+    }
+    fclose(out);
+
+    current_string = nullptr;
+
+    for (int i = 0; i < position; i++)
+    {
+        delete[] out_file[i];
+    }
+    delete[] out_file;
+    delete[] current_string;
+}
+
+void displayRecords(const char* path)        //вывод списка сотрудников при чтении из файла
+{
+    int counter = 0;
+    int position = 0;
+    FILE* in;
+    int string_size = 255;
+    char* current_string = new char[string_size];
+
+    if (fopen_s(&in, path, "r") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        while (!feof(in))
+        {
+            fgets(current_string, string_size, in);
+            ++counter;
+            if (current_string[0] != '\0')
+            {
+                cout << counter << ". " << current_string << endl;
+                current_string[0] = '\0';
+            }
+        }
+    }
+    fclose(in);
+    delete[] current_string;
+    system("pause");
+}
+
+char* clear_string(char* string, int size)          //очистка строки (char*-массива)
+{
+    for (int i = 0; i < size; i++)
+    {
+        string[i] = '\0';
+    }
+    return string;
+}
+
+bool findByFio(char* str, const char* path)   //поиск по фамилии
+{
+    bool finded = false;
+    bool compare = false;
+    int counter = 0;
+    int str_len = 0;
+    int separator = 0;
+    int record_counter = 0;
+    record_counter = count_records(path);
+    int k = 0;
+    int m = 0;
+    FILE* in;
+    int string_size = 255;
+    char* current_string = new char[string_size];
+    char* FIO = new char[strlen(str)];
+
+    if (fopen_s(&in, path, "r") != NULL)
+    {
+        cout << "Can't open file to read!" << endl;
+    }
+    else
+    {
+        while (!feof(in))
+        {
+            for (int i = 0; i < record_counter; i++)
+            {
+                fgets(current_string, string_size, in);
+                str_len = strlen(current_string);
+
+                if (current_string[0] != '\0')
+                {
+                    k = 0;
+                    for (int j = 0; j < str_len; j++)
+                    {
+                        if (current_string[j] == ',')
+                        {
+                            ++separator;
+                        }
+                        if (separator < 1 && current_string[j] != ',')
+                        {
+                            FIO[k] = current_string[j];
+                            ++k;
+                        }
+                    }
+                    FIO[k] = '\0';
+
+                    compare = false;
+                    m = 0;
+                    for (int l = 0; l <= k; l++)
+                    {
+                        if (FIO[l] == str[l])
+                        {
+                            compare = true;
+                            ++m;
+                        }
+                        else
+                        {
+                            compare = false;
+                        }
+                    }
+
+                    if (compare && m - 1 == k)
+                    {
+                        cout << current_string << endl;
+                        finded = true;
+                        system("pause");
+                    }
+                    separator = 0;
+                    FIO = clear_string(FIO, strlen(str));
+                    current_string = clear_string(current_string, string_size);
+                }
+            }
+            current_string[0] = '\0';
+        }
+    }
+    fclose(in);
+        
+    return finded;
+}
+
+int menu(const char* path)                  //основное меню
+{
+    system("cls");
+    int cont = 0;
+
+    while (cont < 1 || cont > 6)
+    {
+        cout << "- PHONE BOOK -" << endl;
+        cout << "1. Add new record." << endl;
+        cout << "2. Edit record." << endl;
+        cout << "3. Delete record." << endl;
+        cout << "4. List all records(" << count_records(path) << ")." << endl;
+        cout << "5. Find by FIO." << endl;
+        cout << "6. Quit." << endl;
+        cout << "Your choise(1-6): ";
+        cin >> cont;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    return cont;
+}
+
+int main()
+{
+    const char* path = "C:\\Intel\\phonebook.txt";
+    int user_choise = 0;
+    int record_counter = 0;
+    int k = 0;
+    bool finded = false;
+    record_counter = count_records(path);
+    Person* currentPerson;
+
+    while (user_choise != 6)                     //пока не выбран выход - выводим меню
+    {
+        user_choise = menu(path);
+
+        switch (user_choise)
+        {
+        case 1:
+            currentPerson = createPerson();
+            addRecord(currentPerson, path);
+            break;
+        case 2:
+            if (count_records(path) < 1)
+            {
+                cout << "Employees is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                displayRecords(path);
+                cout << "Enter number of record to edit(1-" << count_records(path) << "):";
+                cin >> k;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                editRecord(k, path);
+            }
+            break;
+        case 3:
+            if (count_records(path) < 1)
+            {
+                cout << "Employees is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                displayRecords(path);
+                cout << "Enter number of record to delete(1-" << count_records(path) << "):";
+                cin >> k;
+                deleteRecord(k, path);
+            }
+            break;
+        case 4:
+            if (count_records(path) < 1)
+            {
+                cout << "Records is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                displayRecords(path);
+            }
+            break;
+        case 5:
+            if (count_records(path) < 1)
+            {
+                cout << "Records is absent!" << endl;
+                system("pause");
+            }
+            else
+            {
+                cout << "Enter FIO to find:";
+                string str;
+                getline(cin, str);
+                finded = findByFio((char*)str.c_str(), path);
+                if (!finded)
+                {
+                    cout << "Don't find record with this FIO!" << endl;
+                    system("pause");
+                }
+            }
+            break;
+        default:
+            user_choise = 6;
+        }
+
+    }
+    
+    return 0;
+}
+*******************************************person.h*******************************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+class Person
+{
+	//поля
+	char* fio;
+	char* home_number;
+	char* work_number;
+	char* mobile_number;
+	char* external_info;
+
+public:
+	//конструкторы
+	Person(const char* new_fio,
+		const char* new_home_number,
+		const char* new_work_number,
+		const char* new_mobile_number,
+		const char* new_external_info) : fio{ new_fio ? new char[strlen(new_fio) + 1] : nullptr },
+		home_number{ new_home_number ? new char[strlen(new_home_number) + 1] : nullptr },
+		work_number{ new_work_number ? new char[strlen(new_work_number) + 1] : nullptr },
+		mobile_number{ new_mobile_number ? new char[strlen(new_mobile_number) + 1] : nullptr },
+		external_info{ new_external_info ? new char[strlen(new_external_info) + 1] : nullptr }
+	{
+		if (fio)
+		{
+			strcpy_s(fio, strlen(new_fio) + 1, new_fio);
+		}
+		if (home_number)
+		{
+			strcpy_s(home_number, strlen(new_home_number) + 1, new_home_number);
+		}
+		if (work_number)
+		{
+			strcpy_s(work_number, strlen(new_work_number) + 1, new_work_number);
+		}
+		if (mobile_number)
+		{
+			strcpy_s(mobile_number, strlen(new_mobile_number) + 1, new_mobile_number);
+		}
+		if (external_info)
+		{
+			strcpy_s(external_info, strlen(new_external_info) + 1, new_external_info);
+		}
+	}
+	
+	Person() : Person{ nullptr, nullptr, nullptr, nullptr, nullptr }
+	{
+		
+	}
+
+	//методы
+	
+	//сеттеры
+	void setFio(const char* new_fio);
+	void setHome_number(const char* new_home_number);
+	void setWork_number(const char* new_work_number);
+	void setMobile_number(const char* new_mobile_number);
+	void setExternal_info(const char* new_external_info);
+	
+	//геттеры
+	char* getFio();
+	char* getHome_number();
+	char* getWork_number();
+	char* getMobile_number();
+	char* getExternal_info();
+
+	//inline-функция сливает всё в одну строку
+	char* createFullString()
+	{
+		string newFullString;
+		newFullString += getFio();
+		newFullString += ",";
+		newFullString += getHome_number();
+		newFullString += ",";
+		newFullString += getWork_number();
+		newFullString += ",";
+		newFullString += getMobile_number();
+		newFullString += ",";
+		newFullString += getExternal_info();
+		newFullString += "\n\0";
+
+		char* fullString = new char[strlen(newFullString.c_str()) + 1];
+		strcpy_s(fullString, strlen(newFullString.c_str()) + 1, newFullString.c_str());
+
+		return fullString;
+	}
+
+	//деструктор
+	~Person()
+	{
+		delete[] fio;
+		delete[] home_number;
+		delete[] work_number;
+		delete[] mobile_number;
+		delete[] external_info;
+	}
+}
+*******************************************person.cpp*******************************************
+#include "person.h"
+
+void Person::setFio(const char* new_fio)
+{
+	this->fio = new char[strlen(new_fio) + 1];
+	strcpy_s(fio, strlen(new_fio) + 1, new_fio);
+}
+
+void Person::setHome_number(const char* new_home_number)
+{
+	this->home_number = new char[strlen(new_home_number) + 1];
+	strcpy_s(home_number, strlen(new_home_number) + 1, new_home_number);
+}
+
+void Person::setWork_number(const char* new_work_number)
+{
+	this->work_number = new char[strlen(new_work_number) + 1];
+	strcpy_s(work_number, strlen(new_work_number) + 1, new_work_number);
+}
+
+void Person::setMobile_number(const char* new_mobile_number)
+{
+	this->mobile_number = new char[strlen(new_mobile_number) + 1];
+	strcpy_s(mobile_number, strlen(new_mobile_number) + 1, new_mobile_number);
+}
+
+void Person::setExternal_info(const char* new_external_info)
+{
+	this->external_info = new char[strlen(new_external_info) + 1];
+	strcpy_s(external_info, strlen(new_external_info) + 1, new_external_info);
+}
+
+char* Person::getFio()
+{
+	//cout << "\nFIO: " << this->fio;
+	return this->fio;
+}
+
+char* Person::getHome_number()
+{
+	//cout << "\nHome number: " << this->home_number;
+	return this->home_number;
+}
+
+char* Person::getWork_number()
+{
+	//cout << "\nWork number: " << this->work_number;
+	return this->work_number;
+}
+
+char* Person::getMobile_number()
+{
+	//cout << "\nMobile number: " << this->mobile_number;
+	return this->mobile_number;
+}
+
+char* Person::getExternal_info()
+{
+	//cout << "\nExternal info: " << this->external_info;
+	return this->external_info;
+}

@@ -1,0 +1,339 @@
+﻿*************************комментарий от преподавателя**************************
+friend Matrix<T> operator+ (const Matrix<T>& m1, const Matrix<T>& m2) - не совсем правильно
+
+friend Matrix<T> operator+ (const Matrix<T>& m2) - так лучше. Вместо m1 использовать this
+
+В других операторах аналогично 
+****************************************main.cpp********************************
+//ЗАДАНИЕ 2.
+//Создайте шаблонный класс матрица. Необходимо реализовать 
+//динамическое выделение памяти, очистку памяти, заполнение матрицы
+//с клавиатуры, заполнение случайными значениями, отображение матрицы,
+//арифметические операции с помощью перегруженных операторов (+, –, *, /),
+//поиск максимального и минимального элемента.
+
+#include <iostream>
+#include "matrix.h"
+
+using namespace std;
+
+int main()
+{
+    Matrix<int> M1(2, 5);
+    cout << M1 << endl;
+
+    M1.fillRandom(20);
+    cout << "M1 =\n" << M1 << endl;
+
+    cout << "Min element: " << M1.minElement() << endl;
+    
+    cout << "Max element: " << M1.maxElement() << endl;
+    
+    Matrix<int> M2(2, 5);
+    M2.fillRandom(20);
+    cout << "M2 =\n" << M2 << endl;
+
+    Matrix<int> M3(2, 5);
+
+    M3 = M1 + M2;
+    cout << "M1 + M2 =" << endl;
+    cout << M3 << endl;
+
+    M3 = M1 - M2;
+    cout << "M1 - M2 =" << endl;
+    cout << M3 << endl;
+
+    M3 = M1 * M2;
+    cout << "M1 * M2 =" << endl;
+    cout << M3 << endl;
+
+    M3 = M1 / M2;
+    cout << "M1 / M2 =" << endl;
+    cout << M3 << endl;
+
+    M3.fill();
+    cout << "M1 =\n" << M1 << endl;
+
+    return 0;
+}
+*******************************************matrix.h****************************
+#pragma once
+#include <iostream>
+using namespace std;
+
+template<class T>
+class Matrix
+{
+protected:
+
+	int height;
+	int width;
+	T** mass;
+
+private:
+
+	bool allocate(int height, int width)
+	{
+		if (height <= 0 && width <= 0)
+		{
+			return false;
+		}
+		this->height = height;
+		this->width = width;
+		mass = new T* [height];
+		for (int j = 0; j < height; j++)
+		{
+			mass[j] = new T[width];
+			for (int i = 0; i < width; i++)
+			{
+				mass[j][i] = T();
+			}
+		}
+		return true;
+	}
+
+	void clear()
+	{
+		if (mass != nullptr)
+		{
+			for (int j = 0; j < height; j++)
+			{
+				delete[] mass[j];
+			}
+			delete[] mass;
+		}
+		mass = nullptr;
+	}
+
+	void copyTo(T** from)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			for (int i = 0; i < width; i++)
+			{
+				mass[j][i] = from[j][i];
+			}
+		}
+	}
+
+public:
+	
+	Matrix(int height, int width)
+	{
+		if (height <= 0 || width <= 0)
+		{
+			stopProgram("Wrong sizes!");
+		}
+		if (!allocate(height, width))
+		{
+			stopProgram("Wrong sizes!");
+		}
+	}
+
+	Matrix(int size) : Matrix(size, size)
+	{
+	
+	}
+	
+	Matrix()
+	{
+		height = 0;
+		width = 0;
+		mass = nullptr;
+	}
+	
+	Matrix(const Matrix& matrix)
+	{
+		clear();
+		allocate(matrix.height, matrix.width);
+		copyTo(matrix.mass);
+	}
+	
+	~Matrix()
+	{
+		clear();
+	}
+
+	void fill();
+
+	void fillRandom(int limit);
+
+	T minElement();
+
+	T maxElement();
+
+	void operator= (const Matrix<T>& m1)
+	{
+
+		clear();
+		allocate(m1.height, m1.width);
+		copyTo(m1.mass);
+
+	}
+
+	friend Matrix<T> operator+ (const Matrix<T>& m1, const Matrix<T>& m2)
+	{
+		if (m1.height != m2.height || m1.width != m2.width)
+		{
+			cout << "Matrix sizes do not match!" << endl;
+		}
+		Matrix<T> mRes(m1.height, m1.width);
+				
+		for (int j = 0; j < mRes.height; j++)
+		{
+			for (int i = 0; i < mRes.width; i++)
+			{
+				mRes.mass[j][i] = m1.mass[j][i] + m2.mass[j][i];
+			}
+		}
+		return mRes;
+	}
+
+	friend Matrix<T> operator- (const Matrix<T>& m1, const Matrix<T>& m2)
+	{
+		if (m1.height != m2.height || m1.width != m2.width)
+		{
+			cout << "Matrix sizes do not match!" << endl;
+		}
+		Matrix<T> mRes(m1.height, m1.width);
+
+		for (int j = 0; j < mRes.height; j++)
+		{
+			for (int i = 0; i < mRes.width; i++)
+			{
+				mRes.mass[j][i] = m1.mass[j][i] - m2.mass[j][i];
+			}
+		}
+		return mRes;
+	}
+
+	friend Matrix<T> operator* (const Matrix<T>& m1, const Matrix<T>& m2)
+	{
+		if (m1.height != m2.height || m1.width != m2.width)
+		{
+			cout << "Matrix sizes do not match!" << endl;
+		}
+		Matrix<T> mRes(m1.height, m1.width);
+
+		for (int j = 0; j < mRes.height; j++)
+		{
+			for (int i = 0; i < mRes.width; i++)
+			{
+				mRes.mass[j][i] = m1.mass[j][i] * m2.mass[j][i];
+			}
+		}
+		return mRes;
+	}
+	
+	friend Matrix<T> operator/ (const Matrix<T>& m1, const Matrix<T>& m2)
+	{
+		if (m1.height != m2.height || m1.width != m2.width)
+		{
+			cout << "Matrix sizes do not match!" << endl;
+		}
+		Matrix<T> mRes(m1.height, m1.width);
+
+		for (int j = 0; j < mRes.height; j++)
+		{
+			for (int i = 0; i < mRes.width; i++)
+			{
+				mRes.mass[j][i] = m1.mass[j][i] / m2.mass[j][i];
+			}
+		}
+		return mRes;
+	}
+
+	friend ostream& operator<<(ostream& output,	const Matrix& matrix)
+	{
+		if (matrix.mass == nullptr)
+		{
+			output << "Empty matrix" << endl;
+		}
+		for (int j = 0; j < matrix.height; j++)
+		{
+			for (int i = 0; i < matrix.width; i++)
+			{
+				output << " " << matrix.mass[j][i];
+			}
+			output << endl;
+		}
+		return output;
+	}
+
+	void stopProgram(string message);
+};
+
+template<class T>
+inline void Matrix<T>::stopProgram(string message)
+{
+	cout << message << endl;
+	cout << "Press any key to exit program" << endl;
+	exit(1);
+}
+
+template<class T>
+inline void Matrix<T>::fill()
+{
+	int num = 0;
+
+	for (int i = 0; i < this->height; ++i)
+	{
+		for (int j = 0; j < this->width; ++j)
+		{
+			cout << "Enter number (" << i << ", " << j << ")>";
+			cin >> num;
+			this->mass[i][j] = num;
+		}
+	}
+}
+
+template<class T>
+inline void Matrix<T>::fillRandom(int limit)
+{
+	for (int i= 0; i < this->height; ++i)
+	{
+		for (int j = 0; j < this->width; ++j)
+		{
+			this->mass[i][j] = rand() % limit;
+		}
+	}
+}
+
+template<class T>
+inline T Matrix<T>::minElement()
+{
+	
+	T min = mass[0][0];
+	
+	for (int i = 0; i < this->height; ++i)
+	{
+		for (int j = 0; j < this->width; ++j)
+		{
+			if (mass[i][j] < min)
+			{
+				min = mass[i][j];
+			}
+		}
+	}
+	
+	return min;
+}
+
+template<class T>
+inline T Matrix<T>::maxElement()
+{
+	T max = mass[0][0];
+
+	for (int i = 0; i < this->height; ++i)
+	{
+		for (int j = 0; j < this->width; ++j)
+		{
+			if (mass[i][j] > max)
+			{
+				max = mass[i][j];
+			}
+		}
+	}
+
+	return max;
+}

@@ -1,0 +1,111 @@
+﻿//Компораторы и предикаты
+//Итераторы и Лямбда Функции
+//Цикл Для Каждого
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class Point
+{
+public:
+    
+    int x;
+    int y;
+};
+
+class my_min
+{
+public:
+    
+    my_min() = default;
+    
+    bool operator() (const int value1, const int value2)
+    {
+        if (value1 < value2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};
+
+int main()
+{
+    vector<int> A{10, 20, 30, 40, 50, 5, 15, 25, 35, 45};
+    vector<int>::iterator iv;
+
+    iv = std::min_element(A.begin(), A.end(), [] (const int value1, const int value2) -> bool
+    {
+        
+                                            if (value1 < value2)
+                                            {
+                                                return true;
+                                            }
+                                            else
+                                            {
+                                                return false;
+                                            }
+    });
+    cout << *iv << endl;
+    
+    vector<Point> pnt{ Point {10, 20}, {30, 40}, {50, 60}, {1, 2} };
+    vector<Point>::iterator ip;
+
+    ip = std::max(pnt.begin(), pnt.end(), [](vector<Point>::iterator value1, vector<Point>::iterator value2) -> bool
+    {
+            //сравнение точек
+            cout << value1._Ptr->x << "," << value1._Ptr->y << " and " << value2._Ptr->x << "," << value2._Ptr->y << endl;
+            return false;
+    });
+
+    //********************************************************************************************************************************************
+    
+    auto comporator_min { [](const Point value1, const Point value2) -> bool
+    {
+        if ((value1.x + value1.y) < (value2.x + value2.y))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    };
+
+    vector<Point> pnt2{ Point {11, 22}, {33, 44}, {55, 66}, {101, 202} };
+    vector<Point>::iterator ip2;
+    ip2 = std::min_element(pnt2.begin(), pnt2.end(), comporator_min);
+
+    cout << ip2->x << "," << ip2->y << endl;
+    
+    //********************************************************************************************************************************************
+
+    auto comporator_sort{ [](const Point value1, const Point value2) -> bool
+    {
+        if ((value1.x + value1.y) < (value2.x + value2.y))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    };
+
+    vector<Point> pnt3{ Point {10, 20}, {30, 40}, {50, 60}, {1, 2} };
+    vector<Point>::iterator ip3;
+    std::sort(pnt3.begin(), pnt3.end(), comporator_sort);
+    for (auto i : pnt3)
+    {
+        cout << "x=" << i.x << ", y=" << i.y << endl;
+    }
+
+    return 0;
+}
